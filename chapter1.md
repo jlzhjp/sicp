@@ -145,7 +145,7 @@ TODO
         ((= kinds-of-coins 4) 25)
         ((= kinds-of-coins 5) 50)))
 ```
-## 练习 1.11 使用递归和迭代计算函数$f$
+## 练习 1.11 使用递归和迭代计算函数 $f$
 
 ```rkt
 ; n < 3 => f(n) = n
@@ -398,10 +398,10 @@ $$
 x\ y\ mod\ m = (x\ mod\ m)(y\ mod\ m)\ mod\ m
 $$
 
-例如：在$e$是偶数时，
+例如：在 $e$ 是偶数时，
 
 $$
-b^e\ mod\ m = (b^(e/2)\ mod\ m)^2\ mod\ m
+b^e\ mod\ m = (b^{\frac{e}{2}}\ mod\ m)^2\ mod\ m
 $$
 
 ```rkt
