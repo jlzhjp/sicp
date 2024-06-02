@@ -654,3 +654,118 @@ $$
     (= (gcd i n) 1))
   (filtered-accumulate relative-prime? * 1 identity 1 inc n))
 ```
+## 练习 1.34 `(f f)`
+
+```rkt
+application: not a procedure;
+ expected a procedure that can be applied to arguments
+  given: 2
+```
+
+## 实例 通过区间折半寻找方程的根
+
+```rkt
+(define (average x y) (/ (+ x y) 2))
+
+(define (search f neg-point pos-point)
+  (define (close-enough? x y)
+    (< (abs (- x y)) 0.001))
+
+  (let ([midpoint (average neg-point pos-point)])
+    (if (close-enough? neg-point pos-point)
+        midpoint
+        (let ([test-value (f midpoint)])
+          (cond [(positive? test-value)
+                  (search f neg-point midpoint)]
+                [(negative? test-value)
+                 (search f midpoint pos-point)])))))
+
+(define (half-interval-method f a b)
+  (let ((a-value (f a))
+        (b-value (f b)))
+    (cond [(and (negative? a-value) (positive? b-value))
+            (search f a b)]
+           [(and (negative? b-value) (positive? a-value))
+            (search f b a)]
+           [else
+            (error "Values are not of opposite sign" a b)])))
+
+(half-interval-method sin 2.0 4.0)
+(half-interval-method (lambda (x) (- (* x x x) (* 2 x) 3))
+                      1.0
+                      2.0)
+```
+
+## 实例 找出函数的不动点
+数 $x$ 称为函数 $f$ 的不动点，如果 $x$ 满足方程 $f(x) = x$。对于某些函数，通过从某个初始猜测出发，反复应用 $f$
+
+$$
+f(x), f(f(x)), f(f(f(x))), \dots
+$$
+
+知道值的变化不大时，就可以找到它的一个不动点。
+
+```rkt
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess)
+    (let ([next (f guess)])
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+
+(fixed-point cos 1.0)
+(fixed-point (lambda (y) (+ (sin y) (cos y))) 1.0)
+
+(define (sqrt x)
+  (fixed-point (lambda (y) (average y (/ x y))) 1.0))
+
+(sqrt 4)
+```
+
+## 练习 1.35 黄金分割率
+```rkt
+(fixed-point (lambda (x) (+ 1 (/ 1 x))) 1.0)
+```
+
+## 练习 1.36 $x^x = 1000$
+```rkt
+(define (fixed-point* f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess)
+    (display guess)
+    (display "; ")
+    (let ([next (f guess)])
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+
+(newline)
+(fixed-point* (lambda (y) (/ (log 1000) (log y))) 1.5)
+(newline)
+(fixed-point* (lambda (y) (average y (/ (log 1000) (log y)))) 1.5)
+```
+
+## 练习 1.37 无穷连分式
+```rkt
+(define (cont-frac n d k)
+  (define (inner counter)
+    (if (= counter k)
+        (/ n d)
+        (/ n (+ d (inner (+ counter 1))))))
+  (inner 1))
+
+(define (cont-frac* n d k)
+  (define (iter prev counter)
+    (if (= counter 0)
+        prev
+        (iter (/ n (+ d prev)) (- counter 1))))
+  (iter 0 k))
+
+(cont-frac 1.0 1.0 100)
+(cont-frac* 1.0 1.0 100)
+```
