@@ -207,7 +207,7 @@ $$
 ## 练习1.15
 TODO
 
-## 实例：求幂
+## 实例 求幂
 
 ```rkt
 (define (expt b n)
@@ -485,7 +485,7 @@ TODO
 ## 练习 1.25
 溢出
 
-## 练习1.26
+## 练习 1.26
 $$
 2^{\log_2{n}} = n
 $$
@@ -753,19 +753,108 @@ $$
 ## 练习 1.37 无穷连分式
 ```rkt
 (define (cont-frac n d k)
-  (define (inner counter)
-    (if (= counter k)
-        (/ n d)
-        (/ n (+ d (inner (+ counter 1))))))
+  (define (inner i)
+    (if (= i k)
+        (/ (n i) (d i))
+        (/ (n i) (+ (d i) (inner (+ i 1))))))
   (inner 1))
 
 (define (cont-frac* n d k)
-  (define (iter prev counter)
-    (if (= counter 0)
+  (define (iter prev i)
+    (if (= i 0)
         prev
-        (iter (/ n (+ d prev)) (- counter 1))))
+        (iter (/ (n i) (+ (d i) prev)) (- i 1))))
   (iter 0 k))
 
-(cont-frac 1.0 1.0 100)
-(cont-frac* 1.0 1.0 100)
+(cont-frac (lambda (i) 1.0) (lambda (i) 1.0) 100)
+(cont-frac* (lambda (i) 1.0) (lambda (i) 1.0) 100)
+```
+
+## 1.38 欧拉展开式
+
+```rkt
+(define (euler n)
+  (cont-frac*
+   (lambda (i) 1.0)
+   (lambda (i)
+     (if (= (remainder (+ i 1) 3) 0)
+         (* (/ (+ i 1) 3) 2)
+         1))
+   n))
+
+(+ (euler 100) 2)
+```
+
+## 1.39 正切函数的连分式
+
+```rkt
+(define (tan-cf x k)
+  (cont-frac*
+   (lambda (i)
+     (if (= i 1) x (- (* x x))))
+   (lambda (i)
+     (- (* i 2) 1))
+   k))
+
+(tan-cf 3.1415926535 10000)
+```
+
+## 实例 平均阻尼 + 不动点算法
+求 $y = x/y$ 不动点可以转换为求
+$$
+y \mapsto (1/2) (y + x/y)
+$$
+的不动点
+
+```rkt
+(define (average-damp f)
+  (lambda (x) (average x (f x))))
+
+(define (sqrt* x)
+  (fixed-point (average-damp (lambda (y) (/ x y)))
+               1.0))
+```
+
+## 实例 牛顿法
+如果 $x \mapsto g(x)$ 是一个可微函数，那么方程 $g(x) = 0$的一个解就是函数 $x \mapsto f(x)$ 的一个不动点，其中：
+$$
+f(x) = x - \frac{g(x)}{Dg(x)}
+$$
+
+```rkt
+(define (newton-transform g)
+  (lambda (x)
+    (- x (/ (g x) ((deriv g) x)))))
+
+(define (newtons-method g guess)
+  (fixed-point (newton-transform g) guess))
+
+(define (sqrt-n x)
+  (newtons-method (lambda (y) (- (square y) x))
+                  1.0))
+```
+
+## 实例 抽象和第一级过程
+```rkt
+(define (fixed-point-of-transform g transform guess)
+  (fixed-point (transform g) guess))
+
+(define (sqrt-d* x)
+  (fixed-point-of-transform (lambda (y) (/ x y))
+                            average-damp
+                            1.0))
+
+(define (sqrt-n* x)
+  (fixed-point-of-transform (lambda (y) (- (square y) x))
+                            newton-transform
+                            1.0))
+```
+
+## 练习 1.40 `cubic`
+```rkt
+(define (cubic a b c)
+  (lambda (x)
+    (+ (* x x x) (* a x x) (* b x) c)))
+
+(newtons-method (cubic 1 1 1) 1)
 ```
