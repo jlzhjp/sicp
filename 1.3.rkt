@@ -313,6 +313,25 @@
   (lambda (x)
     (+ (* x x x) (* a x x) (* b x) c)))
 
-(newtons-method (cubic 1 1 1) 1)
+; (newtons-method (cubic 1 1 1) 1)
 
+(define (double f)
+  (lambda (x)
+    (f (f x))))
 
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
+(define (repeated f count)
+  (define (iter counter inner-result)
+    (if (= counter 0)
+        inner-result
+        (iter (- counter 1) (f inner-result))))
+  (lambda (x) (iter count x)))
+
+; ((repeated square 2) 5)
+
+(define (smooth f)
+  (define (dx) 0.0001)
+  (lambda (x)
+    (/ (+ (f (- x dx)) (f x) (f (+ x dx))) 3)))

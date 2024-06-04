@@ -548,7 +548,8 @@ TODO
   (iter a 0))
 ```
 
-## 练习 1.31 求$\pi$值
+## 练习 1.31 求 $\pi$ 值
+
 $$
 \prod_{n=1}^{\infty}\left(\frac{2n}{2n - 1} \cdot \frac{2n}{2n + 1}\right)
 $$
@@ -801,9 +802,11 @@ $$
 
 ## 实例 平均阻尼 + 不动点算法
 求 $y = x/y$ 不动点可以转换为求
+
 $$
 y \mapsto (1/2) (y + x/y)
 $$
+
 的不动点
 
 ```rkt
@@ -817,6 +820,7 @@ $$
 
 ## 实例 牛顿法
 如果 $x \mapsto g(x)$ 是一个可微函数，那么方程 $g(x) = 0$的一个解就是函数 $x \mapsto f(x)$ 的一个不动点，其中：
+
 $$
 f(x) = x - \frac{g(x)}{Dg(x)}
 $$
@@ -858,3 +862,47 @@ $$
 
 (newtons-method (cubic 1 1 1) 1)
 ```
+
+## 练习 1.41 `double`
+```rkt
+(define (double f)
+  (lambda (x)
+    (f (f x))))
+
+(((double (double double)) inc) 5)
+; 21
+```
+
+## 练习 1.42 `compose`
+```rkt
+(define (compose f g)
+  (lambda (x) (f (g x))))
+```
+
+## 练习 1.43 `repeated`
+```rkt
+(define (repeated f count)
+  (define (iter counter inner-result)
+    (if (= counter 0)
+        inner-result
+        (iter (- counter 1) (f inner-result))))
+  (lambda (x) (iter count x)))
+
+((repeated square 2) 5)
+```
+
+## 练习 1.44 `smooth`
+```rkt
+(define (smooth f)
+  (define (dx) 0.0001)
+  (lambda (x)
+    (/ (+ (f (- x dx)) (f x) (f (+ x dx))) 3)))
+```
+
+## 练习 1.45
+
+TODO
+
+## 练习 1.46
+
+TODO
