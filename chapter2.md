@@ -179,7 +179,8 @@ p
 (display (car-int pair)) (display " ") (display (cdr-int pair))
 ```
 
-## 练习 2.5 丘奇数
+## 练习 2.6 丘奇数
+
 ```scheme
 (define zero (lambda (f)
                (lambda (x) x)))
@@ -201,4 +202,70 @@ p
   (lambda (f)
     (lambda (x)
       ((m f) ((n f) x)))))
+
+(define (church->number n)
+  ((n (lambda (x) (+ x 1))) 0))
+
+(display (church->number (add one two)))
 ```
+
+## 练习 2.7 定义 `upper-bound` 和 `lower-bound`
+```scheme
+(define (make-interval a b) (cons a b))
+
+(define (upper-bound x) (cdr x))
+
+(define (lower-bound x) (car x))
+```
+
+## 练习 2.8 定义 `sub-interval`
+```scheme
+(define (sub-interval x y)
+  (make-interval (- (lower-bound x) (upper-bound y))
+                 (- (upper-bound x) (lower-bound y))))
+```
+
+## 练习 2.9 区间的宽度
+```scheme
+(define (width x)
+  (/ (- (upper-bound x) (lower-bound x)) 2))
+```
+
+$$
+\def\width{\mathrm{width}}
+\def\sub{\mathrm{sub}}
+\def\add{\mathrm{add}}
+
+
+\begin{aligned}
+& (\width \ (\add\ [x_1,y_1]\ [x_2,y_2])) \\
+\implies & (\width\ [x_1 + x_2, y_1 + y_2]) \\
+\implies & \frac{(y_1 + y_2) - (x_1 + x_2)}{2} \\
+\implies & \frac{y_1 - x_1}{2} + \frac{y_2 - x_2}{2} \\
+\implies & (\width\ [x_1, y_1]) + (\width\ [x_2, y_2])
+\end{aligned} \\
+
+\\[10pt]
+
+\begin{aligned}
+& (\width \ (\sub\ [x_1,y_1]\ [x_2,y_2])) \\
+\implies & (\width\ [x_1 - y_2, y_1 - x_2]) \\
+\implies & \frac{(y_1 - x_2) - (x_1 - y_2)}{2} \\
+\implies & \frac{y_1 - x_1}{2} + \frac{y_2 - x_2}{2} \\
+\implies & (\width\ [x_1, y_1]) + (\width\ [x_2, y_2])
+\end{aligned}
+$$
+
+## 练习 2.10 处理被除区间跨过 0 的情况
+```scheme
+(define (div-interval x y)
+  (if (<= (* (lower-bound y) (upper-bound y)) 0)
+      (error "can not divide a span that spans zero.")
+      (mul-interval
+       x
+       (make-interval (/ 1.0 (upper-bound y))
+                      (/ 1.0 (lower-bound y))))))
+```
+
+## 练习 2.11 将 `mul-interval` 分解为 9 种情况
+TODO
