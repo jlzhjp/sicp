@@ -68,7 +68,7 @@
             [(< d* 0) (cons (- n*) (- d*))]))))
 ```
 
-# 练习 2.2 线段中点
+## 练习 2.2 线段中点
 ```scheme
 (define (make-segment start end) (cons start end))
 
@@ -269,3 +269,302 @@ $$
 
 ## 练习 2.11 将 `mul-interval` 分解为 9 种情况
 TODO
+
+
+## 练习 2.12
+TODO
+
+## 练习 2.13
+TODO
+
+## 练习 2.14
+TODO
+
+## 练习 2.15
+TODO
+
+## 练习 2.16
+TODO
+
+## 示例 表操作
+
+```scheme
+(define (list-ref items n)
+  (if (= n 0)
+      (car items)
+      (list-ref (cdr items) (- n 1))))
+
+(define (length items)
+  (if (null? items)
+      0
+      (+ 1 (length (cdr items)))))
+
+(define (length* items)
+  (define (length-iter a count)
+    (if (null? a)
+        count
+        (length-iter (cdr a) (+ 1 count))))
+  (length-iter items 0))
+
+(define (append list1 list2)
+  (if (null? list1)
+      list2
+      (cons (car list1) (append (cdr list1) list2))))
+```
+
+
+## 练习 2.17 定义 `last-pair`
+```scheme
+(define (reverse items)
+  (define (iter xs ys)
+    (if (null? xs)
+        ys
+        (iter (cdr xs) (cons (car xs) ys))))
+  (iter items nil))
+```
+
+## 练习 2.18 定义 `reverse`
+```scheme
+(define (reverse items)
+  (define (iter xs ys)
+    (if (null? xs)
+        ys
+        (iter (cdr xs) (cons (car xs) ys))))
+  (iter items nil))
+```
+
+## 练习 2.19 换零钱
+```scheme
+(define us-coins (list 50 25 10 5 1))
+(define uk-coins (list 100 50 20 10 5 2 1))
+
+(define (no-more? coin-values) (null? coin-values))
+
+(define (first-denomination coin-values) (car coin-values))
+
+(define (except-first-denomination coin-values) (cdr coin-values))
+
+(define (cc amount coin-values)
+  (cond [(= amount 0) 1]
+        [(or (< amount 0) (no-more? coin-values)) 0]
+        [else
+         (+ (cc amount (except-first-denomination coin-values))
+            (cc (- amount (first-denomination coin-values)) coin-values))]))
+
+(cc 100 us-coins)
+```
+
+## 练习 2.20 `same-parity`
+```scheme
+(define (same-parity . items)
+  (let ([parity (remainder (car items) 2)])
+    (define (helper xs)
+      (cond [(null? xs) '()]
+            [(= (remainder (car xs) 2) parity)
+             (cons (car xs) (helper (cdr xs)))]
+            [else (helper (cdr xs))]))
+    (helper items)))
+```
+
+## 实例 对象的映射
+```scheme
+(define (scale-list items factor)
+  (if (null? items)
+      nil
+      (cons (* (car items) factor)
+            (scale-list (cdr items) factor))))
+
+(define (map proc items)
+  (if (null? items)
+      nil
+      (cons (proc (car items))
+            (map proc (cdr items)))))
+
+(define (scale-list* items factor)
+  (map (lambda (x) (* x factor))
+       items))
+```
+
+## 练习 2.21 `square-list` 的实现
+```scheme
+(define (square-list items)
+  (define (square x) (* x x))
+  (if (null? items)
+      nil
+      (cons (square (car items)) (square-list (cdr items)))))
+
+(define (square-list* items)
+  (define (square x) (* x x))
+  (map square items))
+```
+
+## 练习 2.22 `square-list` 的迭代实现
+```scheme
+(iter '(1 2 3) '())
+(iter '(2 3) '(1))
+(iter '(3) '(1 2))
+(iter '() '(1 2 3))
+```
+
+```scheme
+(define (square-list** items)
+  (define (square x) (* x x))
+  (define (iter things answer)
+    (if (null? things)
+        answer
+        (iter (cdr things)
+              (cons answer
+                    (square (car things))))))
+  (iter items nil))
+
+(square-list** '(1 2 3 4))
+```
+
+结果为
+```
+((((() . 1) . 4) . 9) . 16)
+```
+序列中的每一个序对的第二个元素应该指向下一个序对
+
+## 练习 2.23 `for-each` 的实现
+```scheme
+(define (for-each f items)
+  (if (null? (cdr items))
+      (f (car items))
+      (begin (f (car items)) (for-each f (cdr items)))))
+```
+
+## 实例 `count-leaves` 的实现
+三种情况：
+1. 空表的 `count-leaves` 是 0
+2. 对于树 `x` 的 `count-leaves` 应该是 `(count-leaves (car x))` 和 `(count-leaves (cdr x))` 的和
+3. 一个树叶的 `count-leaves` 是 1
+
+```scheme
+(define (count-leaves x)
+  (cond [(null? x) 0]
+        [(pair? x) (+ (count-leaves (car x)) (count-leaves (cdr x)))]
+        [else 1]))
+```
+
+## 练习 2.24 `(list 1 (list 2 (list 3 4)))` 所代表的树
+```scheme
+(1 (2 (3 4)))
+```
+
+## 练习 2.25 给出下表中能够取出 7 的 `car` 和 `cdr` 组合
+```scheme
+(define a '(1 3 (5 7) 9))
+(define b '((7)))
+(define c '(1 (2 (3 (4 (5 (6 7)))))))
+
+(car (cdr (car (cdr (cdr a)))))
+
+(car (car b))
+
+(car (cdr (car (cdr (car (cdr (car (cdr (car (cdr (car (cdr c))))))))))))
+```
+
+## 练习 2.26
+```scheme
+(define x (list 1 2 3))
+(define y (list 4 5 6))
+
+(append x y)
+; (1 2 3 4 5 6)
+(cons x y)
+; ((1 2 3) 4 5 6)
+(list x y)
+; ((1 2 3) (4 5 6))
+```
+
+## 练习 2.27 `deep-reverse`
+```scheme
+(define (reverse items)
+  (define (iter xs ys)
+    (if (null? xs)
+        ys
+        (iter (cdr xs) (cons (car xs) ys))))
+  (iter items nil))
+```
+
+```scheme
+(define (deep-reverse items)
+  (define (iter rest answer)
+    (if (null? rest)
+        answer
+        (let ([cur (if (pair? (car rest))
+                       (deep-reverse (car rest))
+                       (car rest))])
+          (iter (cdr rest) (cons cur answer)))))
+  (iter items nil))
+```
+
+## 练习 2.28 `fringe`
+```scheme
+(define (fringe x)
+  (cond [(null? x) '()]
+        [(pair? x) (append (fringe (car x)) (fringe (cdr x)))]
+        [else (list x)]))
+```
+
+
+## 练习 2.29 二叉活动体
+```scheme
+(define (make-mobile left right)
+  (list left right))
+
+(define (make-branch length structure)
+  (list length structure))
+
+(define (left-branch mobile) (list-ref mobile 0))
+(define (right-branch mobile) (list-ref mobile 1))
+(define (branch-length branch) (list-ref branch 0))
+(define (branch-structure branch) (list-ref branch 1))
+
+(define (total-weight mobile)
+  (if (pair? mobile)
+      (+ (total-weight (branch-structure (left-branch mobile)))
+         (total-weight (branch-structure (right-branch mobile))))
+      mobile))
+
+(define mobile-x
+  (make-mobile (make-branch 1 (make-mobile (make-branch 1 1)
+                                           (make-branch 1 2)))
+               (make-branch 1 (make-mobile (make-branch 1 3)
+                                           (make-branch 1 4)))))
+
+(define mobile-balanced
+  (make-mobile (make-branch 2 (make-mobile (make-branch 1 2)
+                                           (make-branch 1 2)))
+               (make-branch 1 (make-mobile (make-branch 1 4)
+                                           (make-branch 1 4)))))
+
+(define (is-balance mobile)
+  (if (pair? mobile)
+      (let ([left-len (branch-length (left-branch mobile))]
+            [right-len (branch-length (right-branch mobile))]
+            [left-struct (branch-structure (left-branch mobile))]
+            [right-struct (branch-structure (right-branch mobile))])
+        (and (= (* left-len (total-weight left-struct))
+                (* right-len (total-weight right-struct)))
+             (is-balance left-struct)
+             (is-balance right-struct)))
+      #t))
+```
+
+## 实例 对树的映射
+```scheme
+(define (scale-tree tree factor)
+  (cond [(null? tree) '()]
+        [(not (pair? tree)) (* tree factor)]
+        [else (cons (scale-tree (car tree) factor)
+                    (scale-tree (cdr tree) factor))]))
+
+(define (scale-tree* tree factor)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (scale-tree sub-tree factor)
+             (* sub-tree factor)))
+       tree))
+```
