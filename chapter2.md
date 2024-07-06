@@ -384,6 +384,19 @@ TODO
   (map (lambda (x) (* x factor))
        items))
 ```
+## 更具有一般性的 `map` 过程
+Scheme 提供的 `map` 以一个取 $n$ 个参数的过程和 $n$ 个表为参数，将这个过程应用于所有表的第一个元素，而后应用它们的第二个元素，如此下去，返回所有结果的表，例如：
+```scheme
+(map + (list 1 2 3) (list 40 50 60) (list 700 800 900))
+
+'(741 852 963)
+
+(map (lambda (x y) (+ x (* 2 y)))
+  (list 1 2 3)
+  (list 4 5 6))
+
+'(9 12 15)
+```
 
 ## 练习 2.21 `square-list` 的实现
 ```scheme
@@ -699,4 +712,98 @@ TODO
 
 (define (length** sequence)
   (accumulate (lambda (x y) (+ y 1)) 0 sequence))
+```
+
+## 练习 2.34 Horner 规则
+对于 $x$ 的某个给定值，求出一个多项式在 $x$ 的值，也可以形式化为一种累积。假定需要求下面的多项式：
+$$
+a_nx^n + a_{n-1}x^{n-1} + \cdots + a_1x + a_0
+$$
+
+采用著名的 Horner 规则，可以构造出下面的计算：
+$$
+(\cdots (a_nx + a_{n - 1})x + \cdots + a_1)x + a_0
+$$
+
+```scheme
+(define (horner-eval x coefficient-sequence)
+  (accumulate (lambda (this-coeff higher-terms) (+ (* higher-terms x) this-coeff))
+              0
+              coefficient-sequence))
+```
+
+## 练习 2.35 将 `count-leaves` 重新定义为一个累积
+```scheme
+(define (count-leaves* t)
+  (accumulate + 0 (map (lambda (root)
+                         (cond [(null? root) 0]
+                               [(not (pair? root)) 1]
+                               [else (+ (count-leaves (car root))
+                                        (count-leaves (cdr root)))])) t)))
+```
+
+## 练习 2.36 定义 `accumulate-n`
+```scheme
+(define (accumulate-n op init seqs)
+  (if (null? (car seqs))
+      nil
+      (cons (accumulate op init (map car seqs))
+            (accumulate-n op init (map cdr seqs)))))
+```
+
+## 练习 2.37 矩阵操作
+```scheme
+(define (dot-product v w)
+  (accumulate + 0 (map * v w)))
+
+(define (matrix-*-vector m v)
+  (map (lambda (r) (dot-product r v)) m))
+
+(define (transpose mat)
+  (accumulate-n cons '() mat))
+
+(define (matrix-*-matrix m n)
+  (let ([cols (transpose n)])
+    (map (lambda (r)
+           (map (lambda (c)
+                  (dot-product r c)) cols)) m)))
+```
+
+## 练习 2.38 `fold-right`
+```scheme
+(define (fold-left op initial sequence)
+  (define (iter result rest)
+    (if (null? rest)
+        result
+        (iter (op result (car rest))
+              (cdr rest))))
+  (iter initial sequence))
+
+(define (fold-right op initial sequence)
+  (if (null? sequence)
+      initial
+      (op (car sequence)
+          (accumulate op initial (cdr sequence)))))
+
+(fold-right / 1 (list 1 2 3))
+; 3/2
+
+(fold-left / 1 (list 1 2 3))
+; 1/6
+
+(fold-right list nil (list 1 2 3))
+'(1 (2 (3 ())))
+
+(fold-left list nil (list 1 2 3))
+'(((() 1) 2) 3)
+```
+`op` 满足交换率时， `fold-right` 和 `fold-left` 在任何序列上都产生相同的结果
+
+## 练习 2.39 分别使用 `fold-right` 和 `fold-left` 实现 `reverse`
+```scheme
+(define (reverse* sequence)
+  (fold-right (lambda (x y) (append y (list x))) nil sequence))
+
+(define (reverse** sequence)
+  (fold-left (lambda (x y) (cons y x)) nil sequence))
 ```
