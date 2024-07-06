@@ -232,23 +232,23 @@ p
 ```
 
 $$
-\begin{aligned}
+\begin{align}
 & (\mathrm{width} \ (\mathrm{add}\ [x_1,y_1]\ [x_2,y_2])) \\
 \implies & (\mathrm{width}\ [x_1 + x_2, y_1 + y_2]) \\
 \implies & \frac{(y_1 + y_2) - (x_1 + x_2)}{2} \\
 \implies & \frac{y_1 - x_1}{2} + \frac{y_2 - x_2}{2} \\
 \implies & (\mathrm{width}\ [x_1, y_1]) + (\mathrm{width}\ [x_2, y_2])
-\end{aligned} \\
+\end{align}
+$$
 
-\\[10pt]
-
-\begin{aligned}
+$$
+\begin{align}
 & (\mathrm{width} \ (\mathrm{sub}\ [x_1,y_1]\ [x_2,y_2])) \\
 \implies & (\mathrm{width}\ [x_1 - y_2, y_1 - x_2]) \\
 \implies & \frac{(y_1 - x_2) - (x_1 - y_2)}{2} \\
 \implies & \frac{y_1 - x_1}{2} + \frac{y_2 - x_2}{2} \\
 \implies & (\mathrm{width}\ [x_1, y_1]) + (\mathrm{width}\ [x_2, y_2])
-\end{aligned}
+\end{align}
 $$
 
 ## 练习 2.10 处理被除区间跨过 0 的情况
