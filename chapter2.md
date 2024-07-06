@@ -232,27 +232,22 @@ p
 ```
 
 $$
-\def\width{\mathrm{width}}
-\def\sub{\mathrm{sub}}
-\def\add{\mathrm{add}}
-
-
 \begin{aligned}
-& (\width \ (\add\ [x_1,y_1]\ [x_2,y_2])) \\
-\implies & (\width\ [x_1 + x_2, y_1 + y_2]) \\
+& (\mathrm{width} \ (\mathrm{add}\ [x_1,y_1]\ [x_2,y_2])) \\
+\implies & (\mathrm{width}\ [x_1 + x_2, y_1 + y_2]) \\
 \implies & \frac{(y_1 + y_2) - (x_1 + x_2)}{2} \\
 \implies & \frac{y_1 - x_1}{2} + \frac{y_2 - x_2}{2} \\
-\implies & (\width\ [x_1, y_1]) + (\width\ [x_2, y_2])
+\implies & (\mathrm{width}\ [x_1, y_1]) + (\mathrm{width}\ [x_2, y_2])
 \end{aligned} \\
 
 \\[10pt]
 
 \begin{aligned}
-& (\width \ (\sub\ [x_1,y_1]\ [x_2,y_2])) \\
-\implies & (\width\ [x_1 - y_2, y_1 - x_2]) \\
+& (\mathrm{width} \ (\mathrm{sub}\ [x_1,y_1]\ [x_2,y_2])) \\
+\implies & (\mathrm{width}\ [x_1 - y_2, y_1 - x_2]) \\
 \implies & \frac{(y_1 - x_2) - (x_1 - y_2)}{2} \\
 \implies & \frac{y_1 - x_1}{2} + \frac{y_2 - x_2}{2} \\
-\implies & (\width\ [x_1, y_1]) + (\width\ [x_2, y_2])
+\implies & (\mathrm{width}\ [x_1, y_1]) + (\mathrm{width}\ [x_2, y_2])
 \end{aligned}
 $$
 
@@ -716,14 +711,12 @@ Scheme 提供的 `map` 以一个取 $n$ 个参数的过程和 $n$ 个表为参�
 
 ## 练习 2.34 Horner 规则
 对于 $x$ 的某个给定值，求出一个多项式在 $x$ 的值，也可以形式化为一种累积。假定需要求下面的多项式：
-$$
-a_nx^n + a_{n-1}x^{n-1} + \cdots + a_1x + a_0
-$$
+
+$$ a_nx^n + a_{n-1}x^{n-1} + \cdots + a_1x + a_0 $$
 
 采用著名的 Horner 规则，可以构造出下面的计算：
-$$
-(\cdots (a_nx + a_{n - 1})x + \cdots + a_1)x + a_0
-$$
+
+$$ (\cdots (a_nx + a_{n - 1})x + \cdots + a_1)x + a_0 $$
 
 ```scheme
 (define (horner-eval x coefficient-sequence)
