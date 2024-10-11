@@ -1,0 +1,77 @@
+\documentclass[fontset=founder]{ctexart}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{lmodern}
+
+\newtheorem{theorem}{Theorem}
+
+\DeclareMathOperator{\Fib}{Fib}
+
+\begin{document}
+\begin{theorem}
+    \(\Fib(n)\) is the closest integer to \(\phi^n / \sqrt{5}\), where \(\phi = (1 + \sqrt{5}) / 2\)
+\end{theorem}
+
+\begin{proof}
+令 \(\psi = (1 - \sqrt 5) / 2\), \(f(n) = (\phi^n - \psi^n) / \sqrt 5\)
+
+证明 \(\Fib(n) = f(n)\)
+
+\[
+\frac 1 \phi = \frac 2 {1 + \sqrt 5}
+= \frac {2 (\sqrt 5 - 1)} {(\sqrt 5 + 1)(\sqrt 5 - 1)}
+= \frac {\sqrt 5 - 1} 2 = -\psi
+\]
+
+\[
+\frac 1 \psi = \frac 2 {1 - \sqrt 5}
+= \frac {2(1 + \sqrt 5)} {(1 - \sqrt 5)(1 + \sqrt 5)} = - \frac {1 + \sqrt 5} 2 = -\phi
+\]
+
+\[
+\phi + \psi = 1
+\]
+
+\[
+\begin{aligned}
+f(0) &= 0 \\
+f(1) &= \frac {\frac {1 + \sqrt 5} 2 -  \frac {1 - \sqrt 5} 2} {\sqrt 5} = 1 \\
+f(n - 1) + f(n - 2) &= \frac {\phi^{n - 1} - \psi^{n - 1}} {\sqrt 5} + \frac {\phi^{n - 2} - \psi^{n - 2}} {\sqrt 5} \\
+&= \frac {\phi^{n - 1} + \phi^{n - 2}} {\sqrt 5} - \frac {\psi^{n - 1} + \psi^{n - 2}} {\sqrt 5} \\
+&= \frac {\phi^{n-1}(1 +  1 / \phi)}{\sqrt 5} - \frac {\psi^{n-1}(1 +  1 / \psi)}{\sqrt 5} \\
+&= \frac {\phi^{n-1}(1 - \psi)} {\sqrt 5} - \frac {\psi^{n-1}(1 - \phi)} {\sqrt 5} \\
+&= \frac {\phi^n - \psi^n} {\sqrt 5} \\
+&= f(n)
+\end{aligned}
+\]
+
+\[
+f(n) = \Fib(n)
+\]
+
+证明 \(\Fib(n)\) 是最接近 \(\phi^n / \sqrt 5\) 的整数，即证 \(\left| f(n) - \frac{\phi^n}{\sqrt 5}\right| < \frac 1 2\)
+
+\[
+\left| f(n) - \frac {\phi^n} {\sqrt 5} \right|
+= \left| \frac {\psi^n} {\sqrt 5}  \right| \\
+= \frac {\left| \psi^n \right|} {\sqrt 5}
+\]
+
+\[
+\begin{aligned}
+\frac {\left| \psi^n \right|} {\sqrt 5} &< \frac 1 2 \\
+\left| \psi^n \right| &< \frac {\sqrt 5} 2
+\end{aligned}
+\]
+
+\[
+\left| \psi \right| \approx 0.618 < 1
+\]
+
+\[
+\left| \psi \right|^n < 1 < \frac {\sqrt 5} 2
+\]
+
+\end{proof}
+
+\end{document}

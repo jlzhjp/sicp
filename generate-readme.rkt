@@ -16,7 +16,7 @@
 (define (exercise->file-basename ex)
   (let ([ch (exercise-chapter ex)]
         [no (exercise-number ex)])
-    (format "ch.~a/ex.~a.~a"
+    (format "ch~a/ex.~a.~a"
             ch
             ch
             (~a no #:min-width 2 #:align 'right #:left-pad-string "0"))))

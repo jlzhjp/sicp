@@ -19,8 +19,8 @@
       <td>:white_check_mark: 1.10</td>
       <td>:white_check_mark: 1.11</td>
       <td>:white_check_mark: 1.12</td>
-      <td>:white_square_button: 1.13</td>
-      <td>:white_square_button: 1.14</td>
+      <td>:white_check_mark: 1.13</td>
+      <td>:white_check_mark: 1.14</td>
       <td>:white_square_button: 1.15</td>
       <td>:white_square_button: 1.16</td>
     </tr>
