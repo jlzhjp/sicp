@@ -9,15 +9,13 @@
   (define (print-pascal-triangle-row r)
     (define (print-pascal-triangle-item c)
       (when (<= c r)
-        (begin
-          (display (pascal-triangle-item r c))
-          (display " ")
-          (print-pascal-triangle-item (+ c 1)))))
+        (display (pascal-triangle-item r c))
+        (display " ")
+        (print-pascal-triangle-item (+ c 1))))
     (when (<= r n)
-      (begin
-        (print-pascal-triangle-item 1)
-        (newline)
-        (print-pascal-triangle-row (+ r 1)))))
+      (print-pascal-triangle-item 1)
+      (newline)
+      (print-pascal-triangle-row (+ r 1))))
   (print-pascal-triangle-row 1))
 
 ; (print-pascal-triangle 5)
