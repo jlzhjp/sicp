@@ -20,13 +20,13 @@
       <td>:white_check_mark: 1.11</td>
       <td>:white_check_mark: 1.12</td>
       <td>:white_check_mark: 1.13</td>
-      <td>:white_check_mark: 1.14</td>
-      <td>:white_square_button: 1.15</td>
-      <td>:white_square_button: 1.16</td>
+      <td>:red_square: 1.14</td>
+      <td>:white_check_mark: 1.15</td>
+      <td>:white_check_mark: 1.16</td>
     </tr>
     <tr>
-      <td>:white_square_button: 1.17</td>
-      <td>:white_square_button: 1.18</td>
+      <td>:white_check_mark: 1.17</td>
+      <td>:white_check_mark: 1.18</td>
       <td>:white_square_button: 1.19</td>
       <td>:white_square_button: 1.20</td>
       <td>:white_square_button: 1.21</td>

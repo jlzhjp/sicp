@@ -35,9 +35,18 @@
          accept-extensions))
   (ormap (lambda (file-path) (file-exists? file-path)) accept-files))
 
+(define (exercise-has-todo? ex)
+  (define basename (exercise->file-basename ex))
+  (define todo-files
+    (map (lambda (ext) (string-join (list basename ".todo" ext) ""))
+         accept-extensions))
+  (ormap (lambda (file-path) (file-exists? file-path)) todo-files))
+
 (define (exercise-status-emoji ex)
   (if (exercise-has-file? ex)
-      ":white_check_mark:"
+      (if (exercise-has-todo? ex)
+          ":red_square:"
+          ":white_check_mark:")
       ":white_square_button:"))
 
 
@@ -81,5 +90,3 @@
       (displayln (make-h2 (format "Chapter ~a" ch)))
       (displayln (make-markdown-table exercises 8))))
   #:exists 'replace)
-
-
