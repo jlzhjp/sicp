@@ -27,10 +27,10 @@
     <tr>
       <td>:white_check_mark: 1.17</td>
       <td>:white_check_mark: 1.18</td>
-      <td>:white_square_button: 1.19</td>
-      <td>:white_square_button: 1.20</td>
-      <td>:white_square_button: 1.21</td>
-      <td>:white_square_button: 1.22</td>
+      <td>:white_check_mark: 1.19</td>
+      <td>:white_check_mark: 1.20</td>
+      <td>:white_check_mark: 1.21</td>
+      <td>:white_check_mark: 1.22</td>
       <td>:white_square_button: 1.23</td>
       <td>:white_square_button: 1.24</td>
     </tr>
