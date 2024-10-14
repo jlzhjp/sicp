@@ -1,7 +1,5 @@
 #lang racket/base
 
-(require rackunit)
-
 (define (cube-root x)
   (define (square x) (* x x))
 
@@ -19,6 +17,9 @@
 
   (cube-root-iter 1.0 x))
 
-(check-= (cube-root 8) 2 0.01)
-(check-= (cube-root 27) 3 0.01)
-(check-= (cube-root 729) 9 0.01)
+(module+ test
+  (require rackunit)
+
+  (check-= (cube-root 8) 2 0.01)
+  (check-= (cube-root 27) 3 0.01)
+  (check-= (cube-root 729) 9 0.01))

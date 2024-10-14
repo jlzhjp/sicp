@@ -2,7 +2,6 @@
 
 (require racket/match)
 (require racket/math)
-(require rackunit)
 
 ; if x is sufficiently small, sin x = x
 ; sin x = 3 sin (x / 3) - 4 sin^3 (x / 3)
@@ -25,9 +24,12 @@
       angle
       (p (sine p (/ angle 3.0)))))
 
-(check-= (sine p pi) 0 0.01)
-(check-= (sine p (/ pi 2)) 1 0.01)
+(module+ test
+  (require rackunit)
 
-(match-define (list counted-p get-counter-value) (make-counted p))
-(void (sine counted-p 12.15))
-(check-= (get-counter-value) 5 0)
+  (check-= (sine p pi) 0 0.01)
+  (check-= (sine p (/ pi 2)) 1 0.01)
+
+  (match-define (list counted-p get-counter-value) (make-counted p))
+  (void (sine counted-p 12.15))
+  (check-= (get-counter-value) 5 0))

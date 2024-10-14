@@ -1,7 +1,5 @@
 #lang racket/base
 
-(require rackunit)
-
 (define (square x) (* x x))
 
 (define (fast-expt b n)
@@ -9,8 +7,10 @@
         [(even? n) (square (fast-expt b (/ n 2)))]
         (else (* b (fast-expt b (- n 1))))))
 
-(check-= (fast-expt 2 9) 512 0)
-(check-= (fast-expt 2 10) 1024 0)
+(module+ test
+  (require rackunit)
+  (check-= (fast-expt 2 9) 512 0)
+  (check-= (fast-expt 2 10) 1024 0))
 
 (define (fast-expt* b n)
   (define (fast-expt-iter a b n)
@@ -19,5 +19,6 @@
           [else (fast-expt-iter (* a b) b (- n 1))]))
   (fast-expt-iter 1 b n))
 
-(check-= (fast-expt* 2 9) 512 0)
-(check-= (fast-expt* 2 10) 1024 0)
+(module+ test
+  (check-= (fast-expt* 2 9) 512 0)
+  (check-= (fast-expt* 2 10) 1024 0))

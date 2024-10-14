@@ -1,7 +1,5 @@
 #lang racket/base
 
-(require rackunit)
-
 (define (double x) (* x 2))
 (define (halve x) (/ x 2))
 
@@ -12,5 +10,8 @@
           [else (fast-mul-iter a (- b 1) (+ a c))]))
   (fast-mul-iter a b 0))
 
-(check-= (fast-mul 8 8) 64 0)
-(check-= (fast-mul 8 9) 72 0)
+(module+ test
+  (require rackunit)
+
+  (check-= (fast-mul 8 8) 64 0)
+  (check-= (fast-mul 8 9) 72 0))

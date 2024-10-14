@@ -2,7 +2,6 @@
 
 (provide smallest-divisor)
 
-(require rackunit)
 (require "../common.rkt")
 
 (define (divides? a b) (= (remainder b a) 0))
@@ -14,6 +13,8 @@
 
 (define (smallest-divisor n) (find-divisor n 2))
 
-(check-= (smallest-divisor 199) 199 0)
-(check-= (smallest-divisor 1999) 1999 0)
-(check-= (smallest-divisor 19999) 7 0)
+(module+ test
+  (require rackunit)
+  (check-= (smallest-divisor 199) 199 0)
+  (check-= (smallest-divisor 1999) 1999 0)
+  (check-= (smallest-divisor 19999) 7 0))

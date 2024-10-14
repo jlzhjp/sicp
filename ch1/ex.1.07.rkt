@@ -1,7 +1,5 @@
 #lang racket/base
 
-(require rackunit)
-
 (define (average x y) (/ (+ x y) 2))
 
 (define (improve guess x)
@@ -35,16 +33,20 @@
 (define (sqrt* x)
   (sqrt-iter* 1.0 x))
 
-(check-= (sqrt* 1e-20) 1e-10 0.001)
+(module+ test
+  (require rackunit)
 
-#|
-(check-= (sqrt* 1e21) 31622776601.684 0.001)
---------------------
-FAILURE
-name:       check-=
-location:   ch.1/ex.1.7.rkt:39:0
-actual:     31622778383.672726
-expected:   31622776601.684
-tolerance:  0.001
---------------------
-|#
+  (check-= (sqrt* 1e-20) 1e-10 0.001)
+
+  #|
+  (check-= (sqrt* 1e21) 31622776601.684 0.001)
+  --------------------
+  FAILURE
+  name:       check-=
+  location:   ch.1/ex.1.7.rkt:39:0
+  actual:     31622778383.672726
+  expected:   31622776601.684
+  tolerance:  0.001
+  --------------------
+  |#)
+

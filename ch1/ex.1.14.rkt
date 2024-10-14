@@ -1,7 +1,5 @@
 #lang racket/base
 
-(require rackunit)
-
 (define (function-call->string func-name args)
   (define (args->string result rest)
     (if (null? rest)
@@ -65,4 +63,7 @@
 
   result)
 
-(check-= (count-change 11) 4 0)
+(module+ test
+  (require rackunit)
+
+  (check-= (count-change 11) 4 0))

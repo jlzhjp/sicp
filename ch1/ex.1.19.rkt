@@ -1,7 +1,5 @@
 #lang racket/base
 
-(require rackunit)
-
 (define (square x) (* x x))
 
 (define (fib n)
@@ -16,13 +14,16 @@
           [else (fib-iter (a* a b p q) (b* a b p q) p q (- count 1))]))
   (fib-iter 1 0 0 1 n))
 
-(check-= (fib 1) 1 0)
-(check-= (fib 2) 1 0)
-(check-= (fib 3) 2 0)
-(check-= (fib 4) 3 0)
-(check-= (fib 5) 5 0)
-(check-= (fib 6) 8 0)
-(check-= (fib 7) 13 0)
-(check-= (fib 8) 21 0)
-(check-= (fib 9) 34 0)
-(check-= (fib 10) 55 0)
+(module+ test
+  (require rackunit)
+
+  (check-= (fib 1) 1 0)
+  (check-= (fib 2) 1 0)
+  (check-= (fib 3) 2 0)
+  (check-= (fib 4) 3 0)
+  (check-= (fib 5) 5 0)
+  (check-= (fib 6) 8 0)
+  (check-= (fib 7) 13 0)
+  (check-= (fib 8) 21 0)
+  (check-= (fib 9) 34 0)
+  (check-= (fib 10) 55 0))
