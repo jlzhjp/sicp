@@ -1,6 +1,7 @@
 #lang racket/base
 
-(provide search-for-primes)
+(provide prime?
+         search-for-primes)
 
 (require "ex.1.21.rkt")
 
