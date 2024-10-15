@@ -13,7 +13,7 @@
   (define (counted-function . args)
     (increase-counter)
     (apply function args))
-  (list counted-function get-counter-value))
+  (values counted-function get-counter-value))
 
 (define (cube x) (* x x x))
 
@@ -30,6 +30,6 @@
   (check-= (sine p pi) 0 0.01)
   (check-= (sine p (/ pi 2)) 1 0.01)
 
-  (match-define (list counted-p get-counter-value) (make-counted p))
+  (define-values (counted-p get-counter-value) (make-counted p))
   (void (sine counted-p 12.15))
   (check-= (get-counter-value) 5 0))

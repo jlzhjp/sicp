@@ -43,11 +43,12 @@
   (ormap (lambda (file-path) (file-exists? file-path)) todo-files))
 
 (define (exercise-status-emoji ex)
-  (if (exercise-has-file? ex)
-      (if (exercise-has-todo? ex)
-          ":red_square:"
-          ":white_check_mark:")
-      ":white_square_button:"))
+  (define has-todo? (exercise-has-todo? ex))
+  (define has-file? (exercise-has-file? ex))
+  (match* (has-file? has-todo?)
+    [(_ #t) ":red_square:"]
+    [(#t #f) ":white_check_mark:"]
+    [(#f #f) ":white_square_button:"]))
 
 
 (define (chunk-list lst n)
