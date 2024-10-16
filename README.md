@@ -52,15 +52,15 @@
       <td>:white_check_mark: 1.37</td>
       <td>:white_check_mark: 1.38</td>
       <td>:white_check_mark: 1.39</td>
-      <td>:white_square_button: 1.40</td>
+      <td>:white_check_mark: 1.40</td>
     </tr>
     <tr>
-      <td>:white_square_button: 1.41</td>
-      <td>:white_square_button: 1.42</td>
-      <td>:white_square_button: 1.43</td>
-      <td>:white_square_button: 1.44</td>
-      <td>:white_square_button: 1.45</td>
-      <td>:white_square_button: 1.46</td>
+      <td>:white_check_mark: 1.41</td>
+      <td>:white_check_mark: 1.42</td>
+      <td>:white_check_mark: 1.43</td>
+      <td>:white_check_mark: 1.44</td>
+      <td>:white_check_mark: 1.45</td>
+      <td>:white_check_mark: 1.46</td>
     </tr>
   </tbody>
 </table>

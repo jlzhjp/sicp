@@ -14,9 +14,8 @@
           (try next))))
   (try first-guess))
 
-(define golden-ratio (fixed-point (lambda (x) (+ 1 (/ 1 x))) 1.0))
-
 (module+ test
   (require rackunit)
 
+  (define golden-ratio (fixed-point (lambda (x) (+ 1 (/ 1 x))) 1.0))
   (check-= golden-ratio (/ (+ 1 (sqrt 5)) 2) tolerance))

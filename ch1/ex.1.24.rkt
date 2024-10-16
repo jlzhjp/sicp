@@ -21,7 +21,7 @@
     (= (expmod a n n) a))
   (try-it (+ 1 (random (min 4294967087 (- n 1))))))
 
-(define test-times 100)
+(define test-times 1000)
 
 (define (fast-prime? n times)
   (cond [(= times 0) #t]
