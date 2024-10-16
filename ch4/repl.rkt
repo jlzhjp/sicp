@@ -47,4 +47,5 @@
                      '<procedure-env>))
       (display object)))
 
-(driver-loop)
+(module+ main
+  (driver-loop))

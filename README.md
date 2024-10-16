@@ -69,12 +69,12 @@
 <table align="center">
   <tbody>
     <tr>
-      <td>:white_square_button: 2.1</td>
-      <td>:white_square_button: 2.2</td>
-      <td>:white_square_button: 2.3</td>
-      <td>:white_square_button: 2.4</td>
-      <td>:white_square_button: 2.5</td>
-      <td>:white_square_button: 2.6</td>
+      <td>:white_check_mark: 2.1</td>
+      <td>:white_check_mark: 2.2</td>
+      <td>:white_check_mark: 2.3</td>
+      <td>:white_check_mark: 2.4</td>
+      <td>:white_check_mark: 2.5</td>
+      <td>:white_check_mark: 2.6</td>
       <td>:white_square_button: 2.7</td>
       <td>:white_square_button: 2.8</td>
     </tr>

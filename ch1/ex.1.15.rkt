@@ -1,6 +1,5 @@
 #lang racket/base
 
-(require racket/match)
 (require racket/math)
 
 ; if x is sufficiently small, sin x = x
