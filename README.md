@@ -89,39 +89,39 @@
       <td>:white_square_button: 2.16</td>
     </tr>
     <tr>
-      <td>:white_square_button: 2.17</td>
-      <td>:white_square_button: 2.18</td>
-      <td>:white_square_button: 2.19</td>
-      <td>:white_square_button: 2.20</td>
-      <td>:white_square_button: 2.21</td>
-      <td>:white_square_button: 2.22</td>
-      <td>:white_square_button: 2.23</td>
-      <td>:white_square_button: 2.24</td>
+      <td>:white_check_mark: 2.17</td>
+      <td>:white_check_mark: 2.18</td>
+      <td>:white_check_mark: 2.19</td>
+      <td>:white_check_mark: 2.20</td>
+      <td>:white_check_mark: 2.21</td>
+      <td>:white_check_mark: 2.22</td>
+      <td>:white_check_mark: 2.23</td>
+      <td>:white_check_mark: 2.24</td>
     </tr>
     <tr>
-      <td>:white_square_button: 2.25</td>
-      <td>:white_square_button: 2.26</td>
-      <td>:white_square_button: 2.27</td>
-      <td>:white_square_button: 2.28</td>
-      <td>:white_square_button: 2.29</td>
-      <td>:white_square_button: 2.30</td>
-      <td>:white_square_button: 2.31</td>
-      <td>:white_square_button: 2.32</td>
+      <td>:white_check_mark: 2.25</td>
+      <td>:white_check_mark: 2.26</td>
+      <td>:white_check_mark: 2.27</td>
+      <td>:white_check_mark: 2.28</td>
+      <td>:white_check_mark: 2.29</td>
+      <td>:white_check_mark: 2.30</td>
+      <td>:white_check_mark: 2.31</td>
+      <td>:white_check_mark: 2.32</td>
     </tr>
     <tr>
-      <td>:white_square_button: 2.33</td>
-      <td>:white_square_button: 2.34</td>
-      <td>:white_square_button: 2.35</td>
-      <td>:white_square_button: 2.36</td>
-      <td>:white_square_button: 2.37</td>
-      <td>:white_square_button: 2.38</td>
-      <td>:white_square_button: 2.39</td>
-      <td>:white_square_button: 2.40</td>
+      <td>:white_check_mark: 2.33</td>
+      <td>:white_check_mark: 2.34</td>
+      <td>:white_check_mark: 2.35</td>
+      <td>:white_check_mark: 2.36</td>
+      <td>:white_check_mark: 2.37</td>
+      <td>:white_check_mark: 2.38</td>
+      <td>:white_check_mark: 2.39</td>
+      <td>:white_check_mark: 2.40</td>
     </tr>
     <tr>
-      <td>:white_square_button: 2.41</td>
-      <td>:white_square_button: 2.42</td>
-      <td>:white_square_button: 2.43</td>
+      <td>:white_check_mark: 2.41</td>
+      <td>:white_check_mark: 2.42</td>
+      <td>:red_square: 2.43</td>
       <td>:white_square_button: 2.44</td>
       <td>:white_square_button: 2.45</td>
       <td>:white_square_button: 2.46</td>
