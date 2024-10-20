@@ -1,5 +1,17 @@
 {
     "cSpell.enableFiletypes": [
         "racket"
+    ],
+    "cSpell.words": [
+        "caddr",
+        "cadr",
+        "displayln",
+        "foldr",
+        "horiz",
+        "rackunit",
+        "struct",
+        "vect",
+        "xcor",
+        "ycor"
     ]
 }
