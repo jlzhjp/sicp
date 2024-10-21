@@ -7,7 +7,8 @@
          average
          accumulate
          flatmap
-         enumerate-interval)
+         enumerate-interval
+         atom?)
 
 (define (square x) (* x x))
 
@@ -27,6 +28,8 @@
       (cons low (enumerate-interval (inc low) high))))
 
 (define (flatmap proc seq) (foldr append '() (map proc seq)))
+
+(define (atom? x) (and (not (null? x)) (not (pair? x))))
 
 (module+ test
   (require rackunit)
