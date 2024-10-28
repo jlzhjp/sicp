@@ -141,10 +141,10 @@
     <tr>
       <td>:white_check_mark: 2.57</td>
       <td>:white_check_mark: 2.58</td>
-      <td>:white_square_button: 2.59</td>
-      <td>:white_square_button: 2.60</td>
-      <td>:white_square_button: 2.61</td>
-      <td>:white_square_button: 2.62</td>
+      <td>:white_check_mark: 2.59</td>
+      <td>:white_check_mark: 2.60</td>
+      <td>:white_check_mark: 2.61</td>
+      <td>:white_check_mark: 2.62</td>
       <td>:white_square_button: 2.63</td>
       <td>:white_square_button: 2.64</td>
     </tr>
