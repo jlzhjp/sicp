@@ -1,5 +1,9 @@
 #lang racket/base
 
+(provide element-of-set?
+         intersection-set
+         adjoin-set)
+
 (define (element-of-set? x set)
   (cond [(null? set) #f]
         [(= x (car set)) #t]
