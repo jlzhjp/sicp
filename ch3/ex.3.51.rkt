@@ -7,9 +7,19 @@
   (displayln x)
   x)
 
-(module+ main
-  (define x
-    (stream-map show (stream-enumerate-interval 0 10)))
+(module+ test
+  (require support/testing)
 
-  (void (stream-ref x 5))
-  (void (stream-ref x 7)))
+  (define x '())
+
+  (check-output
+   (lines "0")
+   (set! x (stream-map show (stream-enumerate-interval 0 10))))
+
+  (check-output
+   (lines "1" "2" "3" "4" "5")
+   (check-= (stream-ref x 5) 5 0))
+
+  (check-output
+   (lines "6" "7")
+   (check-= (stream-ref x 7) 7 0)))

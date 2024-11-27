@@ -11,6 +11,7 @@
         "cddr",
         "cond",
         "displayln",
+        "flatmap",
         "foldr",
         "horiz",
         "mcar",
