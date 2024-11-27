@@ -1,6 +1,17 @@
-<h1 align="center">SICP Solutions</h1>
+# SICP Solutions
 
-<h2 align="center">Chapter 1</h2>
+## Setup
+```bash
+raco pkg install ./support/
+```
+
+## Run Tests
+```bash
+raco test .
+```
+
+## Progress
+<h3 align="center">Chapter 1</h2>
 
 <table align="center">
   <tbody>
@@ -64,7 +75,8 @@
     </tr>
   </tbody>
 </table>
-<h2 align="center">Chapter 2</h2>
+
+<h3 align="center">Chapter 2</h2>
 
 <table align="center">
   <tbody>
@@ -193,7 +205,8 @@
     </tr>
   </tbody>
 </table>
-<h2 align="center">Chapter 3</h2>
+
+<h3 align="center">Chapter 3</h2>
 
 <table align="center">
   <tbody>
@@ -303,7 +316,8 @@
     </tr>
   </tbody>
 </table>
-<h2 align="center">Chapter 4</h2>
+
+<h3 align="center">Chapter 4</h2>
 
 <table align="center">
   <tbody>
@@ -408,7 +422,8 @@
     </tr>
   </tbody>
 </table>
-<h2 align="center">Chapter 5</h2>
+
+<h3 align="center">Chapter 5</h2>
 
 <table align="center">
   <tbody>
@@ -480,3 +495,4 @@
     </tr>
   </tbody>
 </table>
+

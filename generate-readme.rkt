@@ -78,17 +78,30 @@
                      "</table>")
                "\n"))
 
-(define (make-h1 text) (format "<h1 align=\"center\">~a</h1>\n" text))
-(define (make-h2 text) (format "<h2 align=\"center\">~a</h2>\n" text))
+(define (make-h3 text) (format "<h3 align=\"center\">~a</h2>\n" text))
 
 (module+ main
   (with-output-to-file "README.md"
     (lambda ()
-      (displayln (make-h1 "SICP Solutions"))
+      (display-lines
+       (list "# SICP Solutions"
+             ""
+             "## Setup"
+             "```bash"
+             "raco pkg install ./support/"
+             "```"
+             ""
+             "## Run Tests"
+             "```bash"
+             "raco test ."
+             "```"
+             ""
+             "## Progress"))
       (for ([ch chapters])
         (define exercises (map (lambda (no)
                                  (make-exercise ch no))
                                (inclusive-range 1 (chapter-exercise-count ch))))
-        (displayln (make-h2 (format "Chapter ~a" ch)))
-        (displayln (make-markdown-table exercises 8))))
+        (displayln (make-h3 (format "Chapter ~a" ch)))
+        (displayln (make-markdown-table exercises 8))
+        (newline)))
     #:exists 'replace))
