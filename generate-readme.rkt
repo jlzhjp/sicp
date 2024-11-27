@@ -81,13 +81,14 @@
 (define (make-h1 text) (format "<h1 align=\"center\">~a</h1>\n" text))
 (define (make-h2 text) (format "<h2 align=\"center\">~a</h2>\n" text))
 
-(with-output-to-file "README.md"
-  (lambda ()
-    (displayln (make-h1 "SICP Solutions"))
-    (for ([ch chapters])
-      (define exercises (map (lambda (no)
-                               (make-exercise ch no))
-                             (inclusive-range 1 (chapter-exercise-count ch))))
-      (displayln (make-h2 (format "Chapter ~a" ch)))
-      (displayln (make-markdown-table exercises 8))))
-  #:exists 'replace)
+(module+ main
+  (with-output-to-file "README.md"
+    (lambda ()
+      (displayln (make-h1 "SICP Solutions"))
+      (for ([ch chapters])
+        (define exercises (map (lambda (no)
+                                 (make-exercise ch no))
+                               (inclusive-range 1 (chapter-exercise-count ch))))
+        (displayln (make-h2 (format "Chapter ~a" ch)))
+        (displayln (make-markdown-table exercises 8))))
+    #:exists 'replace))

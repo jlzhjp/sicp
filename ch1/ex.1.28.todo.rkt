@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in "../common.rkt" square))
+(require (only-in support square))
 
 (define (expmod* base exp m)
   (cond [(= exp 0) 1]

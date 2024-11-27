@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require "../common.rkt")
+(require support)
 
 (define (double f) (lambda (x) (f (f x))))
 

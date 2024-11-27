@@ -259,8 +259,8 @@
     </tr>
     <tr>
       <td>:white_square_button: 3.49</td>
-      <td>:white_square_button: 3.50</td>
-      <td>:white_square_button: 3.51</td>
+      <td>:white_check_mark: 3.50</td>
+      <td>:white_check_mark: 3.51</td>
       <td>:white_square_button: 3.52</td>
       <td>:white_square_button: 3.53</td>
       <td>:white_square_button: 3.54</td>

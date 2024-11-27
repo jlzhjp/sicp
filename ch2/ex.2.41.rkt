@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in "../common.rkt"
+(require (only-in support
                   dec
                   flatmap
                   enumerate-interval))

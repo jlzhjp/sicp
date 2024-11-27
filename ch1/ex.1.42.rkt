@@ -2,7 +2,7 @@
 
 (provide compose)
 
-(require "../common.rkt")
+(require support)
 
 (define (compose f g) (lambda (x) (f (g x))))
 

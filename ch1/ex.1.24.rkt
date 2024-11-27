@@ -2,7 +2,7 @@
 
 (provide expmod)
 
-(require "../common.rkt")
+(require support)
 (require "ex.1.22.rkt")
 
 (define (expmod base exp m)

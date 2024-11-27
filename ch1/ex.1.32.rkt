@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require "../common.rkt")
+(require support)
 
 (define (accumulate combiner null-value term a next b)
   (if (> a b)

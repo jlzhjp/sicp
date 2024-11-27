@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in "../common.rkt" accumulate))
+(require (only-in support accumulate))
 
 (define (count-leaves t)
   (accumulate + 0 (map (lambda (x)

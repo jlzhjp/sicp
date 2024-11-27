@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in "../common.rkt" square))
+(require (only-in support square))
 
 (define (square-tree tree)
   (cond [(null? tree) '()]

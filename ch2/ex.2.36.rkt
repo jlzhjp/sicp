@@ -2,7 +2,7 @@
 
 (provide accumulate-n)
 
-(require (only-in "../common.rkt" accumulate))
+(require (only-in support accumulate))
 
 (define (accumulate-n op init seqs)
   (if (null? (car seqs))

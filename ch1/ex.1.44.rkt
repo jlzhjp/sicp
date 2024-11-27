@@ -2,7 +2,7 @@
 
 (provide smooth)
 
-(require "../common.rkt")
+(require support)
 
 (define dx 0.1)
 

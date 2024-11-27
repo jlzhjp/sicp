@@ -10,9 +10,9 @@
          racket/match
          racket/runtime-path
 
-         "ch2/ex.2.46.rkt"
-         "ch2/ex.2.47.rkt"
-         "ch2/ex.2.48.rkt")
+         "../ch2/ex.2.46.rkt"
+         "../ch2/ex.2.47.rkt"
+         "../ch2/ex.2.48.rkt")
 
 (define (make-transform-matrix . vs)
   (match vs [(list (vector xx xy) (vector yx yy) (vector x0 y0))

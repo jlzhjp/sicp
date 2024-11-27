@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in "../common.rkt" inc)
+(require (only-in support inc)
          (only-in "../ch1/ex.1.43.rkt" repeated)
          (only-in "../ch1/ex.1.42.rkt" compose))
 

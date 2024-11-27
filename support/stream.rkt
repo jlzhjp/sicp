@@ -5,8 +5,7 @@
          stream-null?
          stream-car
          stream-cdr
-         stream-exact-=
-         stream-prefix-=
+         stream-ref
          stream-enumerate-interval
          delay
          force)
@@ -25,19 +24,10 @@
 
 (define (stream-cdr stream) (force (cdr stream)))
 
-(define (stream-exact-= stream lst)
-  (cond [(and (null? lst) (stream-null? stream)) #t]
-        [(or (null? lst) (stream-null? stream)) #f]
-        [(= (stream-car stream) (car lst))
-         (stream-prefix-= (stream-cdr stream) (cdr lst))]
-        [else #f]))
-
-(define (stream-prefix-= stream lst)
-  (cond [(null? lst) #t]
-        [(stream-null? stream) #f]
-        [(= (stream-car stream) (car lst))
-         (stream-prefix-= (stream-cdr stream) (cdr lst))]
-        [else #f]))
+(define (stream-ref s n)
+  (if (= n 0)
+      (stream-car s)
+      (stream-ref (stream-cdr s) (- n 1))))
 
 (define (stream-enumerate-interval low high)
   (if (> low high)

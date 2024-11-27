@@ -2,7 +2,7 @@
 
 (require (only-in "../ch1/ex.1.22.rkt"
                   prime?)
-         (only-in "../common.rkt"
+         (only-in support
                   flatmap
                   enumerate-interval
                   dec))

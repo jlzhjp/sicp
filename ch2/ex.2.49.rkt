@@ -5,7 +5,7 @@
          diamond
          wave)
 
-(require "../drawing.rkt"
+(require support/drawing
          "ex.2.46.rkt"
          "ex.2.47.rkt"
          "ex.2.48.rkt")

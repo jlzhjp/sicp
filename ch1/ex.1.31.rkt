@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require racket/math)
-(require "../common.rkt")
+(require support)
 
 (define (product term a next b)
   (if (> a b)

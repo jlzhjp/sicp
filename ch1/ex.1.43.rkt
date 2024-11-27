@@ -2,7 +2,7 @@
 
 (provide repeated)
 
-(require "../common.rkt")
+(require support)
 
 (define (repeated f n)
   (if (= n 0)

@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in "../common.rkt" square average))
+(require (only-in support square average))
 
 (define (iterative-improve good-enough? improve)
   (define (try guess)

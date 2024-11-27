@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in "../common.rkt" accumulate))
+(require (only-in support accumulate))
 
 (define (horner-eval x coefficient-sequence)
   (accumulate (lambda (this-coeff higher-terms)

@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require "../common.rkt")
+(require support)
 
 (define (sum term a next b)
   (if (> a b)

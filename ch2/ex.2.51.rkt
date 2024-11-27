@@ -32,7 +32,7 @@
 (module+ test)
 
 (module+ main
-  (require "../drawing.rkt"
+  (require support/drawing
            racket/runtime-path)
 
   (define-runtime-path beside.jpg "ex.2.51.beside.jpg")

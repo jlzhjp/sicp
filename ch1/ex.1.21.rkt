@@ -2,7 +2,7 @@
 
 (provide smallest-divisor)
 
-(require "../common.rkt")
+(require support)
 
 (define (divides? a b) (= (remainder b a) 0))
 

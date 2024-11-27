@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require "../common.rkt")
+(require support)
 
 (define (square-list items)
   (define (iter things answer)

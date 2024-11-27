@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require "../common.rkt")
+(require support)
 (require (only-in "ex.1.22.rkt" prime?))
 
 (define (filtered-accumulate combiner pred? null-value term a next b)

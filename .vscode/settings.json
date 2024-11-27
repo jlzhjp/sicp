@@ -1,7 +1,9 @@
 {
-    "cSpell.enableFiletypes": [
-        "racket"
-    ],
+    "cSpell.enabledFileTypes": {
+        "*": true,
+        "markdown": true,
+        "racket": true
+    },
     "cSpell.words": [
         "caddr",
         "cadr",
