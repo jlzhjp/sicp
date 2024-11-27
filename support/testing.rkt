@@ -5,6 +5,7 @@
          check-stream-prefix-=
          check-stream-exact-=
          check-output
+         check-output-trimmed
          lines
          (all-from-out rackunit))
 
@@ -36,6 +37,18 @@
 (define-syntax-rule (check-output expected proc ...)
   (let ([output (with-output-to-string (lambda () proc ...))])
     (check-equal? output expected)))
+
+(define-syntax-rule (check-output-trimmed expected proc ...)
+  (let ([output (trimmed-lines (with-output-to-string (lambda () proc ...)))])
+    (check-equal? output expected)))
+
+(define (trimmed-lines text)
+  (string-join
+   (filter non-empty-string?
+           (map (lambda (line) (string-trim line))
+                (string-split text "\n")))
+   "\n"
+   #:after-last "\n"))
 
 (define (lines . strs)
   (string-join strs "\n" #:after-last "\n"))
