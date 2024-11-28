@@ -115,7 +115,7 @@
 
   (cond [(self-evaluating? exp) exp]
         [(variable? exp) (lookup-variable-value exp env)]
-        [(hash-ref eval-table (car exp) #f)
+        [(hash-has-key? eval-table (car exp))
          ((hash-ref eval-table (car exp)) exp env)]
         [(application? exp)
          (apply (eval (operator exp) env)
