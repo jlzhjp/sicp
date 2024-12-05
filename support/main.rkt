@@ -7,6 +7,7 @@
          average
          accumulate
          flatmap
+         sicp-random
          enumerate-interval
          atom?)
 
@@ -30,6 +31,11 @@
 (define (flatmap proc seq) (foldr append '() (map proc seq)))
 
 (define (atom? x) (and (not (null? x)) (not (pair? x))))
+
+(define (sicp-random n)
+  (if (and (integer? n) (exact? n))
+      (random n)
+      (* n (random))))
 
 (module+ test
   (require rackunit)

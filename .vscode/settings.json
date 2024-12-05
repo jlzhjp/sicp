@@ -18,6 +18,7 @@
         "mcons",
         "memq",
         "rackunit",
+        "sicp",
         "struct",
         "vect",
         "xcor",

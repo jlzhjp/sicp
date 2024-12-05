@@ -163,10 +163,10 @@ raco test .
     <tr>
       <td>:white_check_mark: 2.65</td>
       <td>:white_square_button: 2.66</td>
-      <td>:white_square_button: 2.67</td>
-      <td>:white_square_button: 2.68</td>
-      <td>:white_square_button: 2.69</td>
-      <td>:white_square_button: 2.70</td>
+      <td>:white_check_mark: 2.67</td>
+      <td>:white_check_mark: 2.68</td>
+      <td>:white_check_mark: 2.69</td>
+      <td>:white_check_mark: 2.70</td>
       <td>:white_square_button: 2.71</td>
       <td>:white_square_button: 2.72</td>
     </tr>
@@ -211,14 +211,14 @@ raco test .
 <table align="center">
   <tbody>
     <tr>
-      <td>:white_square_button: 3.1</td>
-      <td>:white_square_button: 3.2</td>
-      <td>:white_square_button: 3.3</td>
-      <td>:white_square_button: 3.4</td>
-      <td>:white_square_button: 3.5</td>
-      <td>:white_square_button: 3.6</td>
-      <td>:white_square_button: 3.7</td>
-      <td>:white_square_button: 3.8</td>
+      <td>:white_check_mark: 3.1</td>
+      <td>:white_check_mark: 3.2</td>
+      <td>:white_check_mark: 3.3</td>
+      <td>:white_check_mark: 3.4</td>
+      <td>:white_check_mark: 3.5</td>
+      <td>:white_check_mark: 3.6</td>
+      <td>:white_check_mark: 3.7</td>
+      <td>:white_check_mark: 3.8</td>
     </tr>
     <tr>
       <td>:white_square_button: 3.9</td>
