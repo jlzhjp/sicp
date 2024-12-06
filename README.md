@@ -1,16 +1,19 @@
 # SICP Solutions
 
 ## Setup
+
 ```bash
 raco pkg install ./support/
 ```
 
 ## Run Tests
+
 ```bash
 raco test .
 ```
 
 ## Progress
+
 <h3 align="center">Chapter 1</h2>
 
 <table align="center">
@@ -221,23 +224,23 @@ raco test .
       <td>:white_check_mark: 3.8</td>
     </tr>
     <tr>
-      <td>:white_square_button: 3.9</td>
-      <td>:white_square_button: 3.10</td>
-      <td>:white_square_button: 3.11</td>
-      <td>:white_square_button: 3.12</td>
-      <td>:white_square_button: 3.13</td>
-      <td>:white_square_button: 3.14</td>
-      <td>:white_square_button: 3.15</td>
-      <td>:white_square_button: 3.16</td>
+      <td>:white_check_mark: 3.9</td>
+      <td>:white_check_mark: 3.10</td>
+      <td>:white_check_mark: 3.11</td>
+      <td>:white_check_mark: 3.12</td>
+      <td>:white_check_mark: 3.13</td>
+      <td>:white_check_mark: 3.14</td>
+      <td>:white_check_mark: 3.15</td>
+      <td>:white_check_mark: 3.16</td>
     </tr>
     <tr>
-      <td>:white_square_button: 3.17</td>
-      <td>:white_square_button: 3.18</td>
-      <td>:white_square_button: 3.19</td>
+      <td>:white_check_mark: 3.17</td>
+      <td>:white_check_mark: 3.18</td>
+      <td>:white_check_mark: 3.19</td>
       <td>:white_square_button: 3.20</td>
-      <td>:white_square_button: 3.21</td>
-      <td>:white_square_button: 3.22</td>
-      <td>:white_square_button: 3.23</td>
+      <td>:white_check_mark: 3.21</td>
+      <td>:white_check_mark: 3.22</td>
+      <td>:white_check_mark: 3.23</td>
       <td>:white_square_button: 3.24</td>
     </tr>
     <tr>
@@ -428,7 +431,7 @@ raco test .
 <table align="center">
   <tbody>
     <tr>
-      <td>:white_square_button: 5.1</td>
+      <td>:red_square: 5.1</td>
       <td>:white_square_button: 5.2</td>
       <td>:white_square_button: 5.3</td>
       <td>:white_square_button: 5.4</td>

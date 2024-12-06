@@ -9,7 +9,10 @@
          flatmap
          sicp-random
          enumerate-interval
-         atom?)
+         atom?
+         mcadr
+         mcaddr
+         mcddr)
 
 (define (square x) (* x x))
 
@@ -36,6 +39,10 @@
   (if (and (integer? n) (exact? n))
       (random n)
       (* n (random))))
+
+(define (mcddr x) (mcdr (mcdr x)))
+(define (mcadr x) (mcar (mcdr x)))
+(define (mcaddr x) (mcar (mcdr (mcdr x))))
 
 (module+ test
   (require rackunit)
