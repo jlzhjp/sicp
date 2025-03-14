@@ -7,7 +7,7 @@
 raco pkg install ./support/
 ```
 
-<h2 style="text-align: center;">Chapter 1</h2>
+<h2 align="center">Chapter 1</h2>
 
 <table align="center">
   <tbody>
@@ -72,7 +72,7 @@ raco pkg install ./support/
   </tbody>
 </table>
 
-<h2 style="text-align: center;">Chapter 2</h2>
+<h2 align="center">Chapter 2</h2>
 
 <table align="center">
   <tbody>
@@ -202,7 +202,7 @@ raco pkg install ./support/
   </tbody>
 </table>
 
-<h2 style="text-align: center;">Chapter 3</h2>
+<h2 align="center">Chapter 3</h2>
 
 <table align="center">
   <tbody>
@@ -313,7 +313,7 @@ raco pkg install ./support/
   </tbody>
 </table>
 
-<h2 style="text-align: center;">Chapter 4</h2>
+<h2 align="center">Chapter 4</h2>
 
 <table align="center">
   <tbody>
@@ -419,7 +419,7 @@ raco pkg install ./support/
   </tbody>
 </table>
 
-<h2 style="text-align: center;">Chapter 5</h2>
+<h2 align="center">Chapter 5</h2>
 
 <table align="center">
   <tbody>

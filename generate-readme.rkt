@@ -106,7 +106,7 @@
 (: title-level-2 (-> String [#:center Boolean] Void))
 (define (title-level-2 title #:center [center #f])
   (if center
-      (printf "\n<h2 style=\"text-align: center;\">~a</h2>\n\n" title)
+      (printf "\n<h2 align=\"center\">~a</h2>\n\n" title)
       (printf "\n## ~a\n\n" title)))
 
 (: text (-> (Listof String) Void))
