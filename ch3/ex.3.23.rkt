@@ -91,32 +91,32 @@
 
   (define d (make-deque))
 
-  (check-output
-   (lines
-    "(deque)"
-    "(deque b)"
-    "(deque a b)"
-    "(deque 0 a b)"
-    "(deque 0 a b c)"
-    "(deque 0 a b c d)"
-    "(deque 0 a b c d 0)"
-    "(deque 0 a b c d)"
-    "(deque a b c d)")
+  (check-normalized-output
+   (lambda ()
+     (print-deque d) (newline)
+     (front-insert-deque! d 'b)
+     (print-deque d) (newline)
+     (front-insert-deque! d 'a)
+     (print-deque d) (newline)
+     (front-insert-deque! d 0)
+     (print-deque d) (newline)
+     (rear-insert-deque! d 'c)
+     (print-deque d) (newline)
+     (rear-insert-deque! d 'd)
+     (print-deque d) (newline)
+     (rear-insert-deque! d 0)
+     (print-deque d) (newline)
+     (rear-delete-deque! d)
+     (print-deque d) (newline)
+     (front-delete-deque! d)
+     (print-deque d) (newline))
 
-   (print-deque d) (newline)
-   (front-insert-deque! d 'b)
-   (print-deque d) (newline)
-   (front-insert-deque! d 'a)
-   (print-deque d) (newline)
-   (front-insert-deque! d 0)
-   (print-deque d) (newline)
-   (rear-insert-deque! d 'c)
-   (print-deque d) (newline)
-   (rear-insert-deque! d 'd)
-   (print-deque d) (newline)
-   (rear-insert-deque! d 0)
-   (print-deque d) (newline)
-   (rear-delete-deque! d)
-   (print-deque d) (newline)
-   (front-delete-deque! d)
-   (print-deque d) (newline)))
+   '("(deque)"
+     "(deque b)"
+     "(deque a b)"
+     "(deque 0 a b)"
+     "(deque 0 a b c)"
+     "(deque 0 a b c d)"
+     "(deque 0 a b c d 0)"
+     "(deque 0 a b c d)"
+     "(deque a b c d)")))

@@ -67,12 +67,11 @@
 (module+ test
   (require support/testing)
 
-  (check-output
-   (lines "(queue a)"
-          "(queue a b)"
-          "(queue b)"
-          "(queue)")
-   (print-queue (insert-queue! q1 'a)) (newline)
-   (print-queue (insert-queue! q1 'b)) (newline)
-   (print-queue (delete-queue! q1)) (newline)
-   (print-queue (delete-queue! q1)) (newline)))
+  (check-normalized-output
+   (lambda ()
+     (print-queue (insert-queue! q1 'a)) (newline)
+     (print-queue (insert-queue! q1 'b)) (newline)
+     (print-queue (delete-queue! q1)) (newline)
+     (print-queue (delete-queue! q1)) (newline))
+
+   '("(queue a)" "(queue a b)" "(queue b)" "(queue)")))

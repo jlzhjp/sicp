@@ -1,5 +1,7 @@
 #lang racket/base
 
+(require racket/string)
+
 (define (pascal-triangle-item r c)
   (cond [(= r c 1) 1]
         [(or (< r 1) (< c 1)(> c r)) 0]
@@ -21,10 +23,12 @@
 
 (module+ test
   (require support/testing)
-  (check-output-trimmed
-   (lines "1"
-          "1 1"
-          "1 2 1"
-          "1 3 3 1"
-          "1 4 6 4 1")
-   (print-pascal-triangle 5)))
+
+  (check-normalized-output
+   (lambda () (print-pascal-triangle 5))
+
+   '("1"
+     "1 1"
+     "1 2 1"
+     "1 3 3 1"
+     "1 4 6 4 1")))

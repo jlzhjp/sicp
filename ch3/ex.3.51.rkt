@@ -12,14 +12,20 @@
 
   (define x '())
 
-  (check-output
-   (lines "0")
-   (set! x (stream-map show (stream-enumerate-interval 0 10))))
+  (check-normalized-output
+   (lambda ()
+     (set! x (stream-map show (stream-enumerate-interval 0 10))))
 
-  (check-output
-   (lines "1" "2" "3" "4" "5")
-   (check-= (stream-ref x 5) 5 0))
+   '("0"))
 
-  (check-output
-   (lines "6" "7")
-   (check-= (stream-ref x 7) 7 0)))
+  (check-normalized-output
+   (lambda ()
+     (check-= (stream-ref x 5) 5 0))
+
+   '("1" "2" "3" "4" "5"))
+
+  (check-normalized-output
+   (lambda ()
+     (check-= (stream-ref x 7) 7 0))
+
+   '("6" "7")))

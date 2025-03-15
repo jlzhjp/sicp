@@ -35,7 +35,9 @@
 
   (check-equal? ((acc 'some-other-password 'deposit) 50) "Incorrect password")
   (check-= ((acc 'secret-password 'withdraw) 40) 60 0)
-  (check-output
-   "Police coming!\n"
-   (for ([_ (in-range 7)])
-     ((acc 'some-other-password 'deposit) 50))))
+  (check-normalized-output
+   (lambda ()
+     (for ([_ (in-range 7)])
+       ((acc 'some-other-password 'deposit) 50)))
+
+   '("Police coming!")))
