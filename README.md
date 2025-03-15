@@ -273,7 +273,7 @@ raco pkg install ./support/
       <td>✅ 3.52</td>
       <td>✅ 3.53</td>
       <td>✅ 3.54</td>
-      <td>🔳 3.55</td>
+      <td>✅ 3.55</td>
       <td>🔳 3.56</td>
     </tr>
     <tr>
