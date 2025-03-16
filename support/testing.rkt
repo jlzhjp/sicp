@@ -13,8 +13,6 @@
          racket/port
          rackunit)
 
-(require (for-syntax racket/base))
-
 (define (stream-prefix-= stream lst)
   (cond [(null? lst) #t]
         [(stream-null? stream) #f]

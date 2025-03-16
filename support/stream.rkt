@@ -10,26 +10,21 @@
          display-stream
          stream-enumerate-interval
          stream-filter
-         with-stream-memo
+         with-stream-no-memo
          delay
          force)
 
-(define stream-memo? #t)
+(define stream-memo? (make-parameter #t))
 
-(define (with-stream-memo-impl v proc)
-  (define backup-value stream-memo?)
-  (set! stream-memo? v)
-  (proc)
-  (set! stream-memo? backup-value))
-
-(define-syntax-rule (with-stream-memo v proc ...)
-  (with-stream-memo-impl v (lambda () proc ...)))
+(define (with-stream-no-memo proc)
+  (parameterize ([stream-memo? #f])
+    (proc)))
 
 (define (memo-proc proc)
   (let ([already-run? #f]
         [result #f])
     (lambda ()
-      (if (or (not already-run?) (not stream-memo?))
+      (if (or (not already-run?) (not (stream-memo?)))
           (begin (set! result (proc))
                  (set! already-run? #t)
                  result)
