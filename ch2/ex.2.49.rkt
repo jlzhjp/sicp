@@ -62,11 +62,18 @@
   (define-runtime-path diamond.jpg "ex.2.49.diamond.jpg")
   (define-runtime-path wave.jpg "ex.2.49.wave.jpg")
 
-  (with-drawing-to-file outline.jpg '(128 128) 3
-    (outline frame-whole-canvas))
-  (with-drawing-to-file x.jpg '(128 128) 3
-    (x frame-whole-canvas))
-  (with-drawing-to-file diamond.jpg '(128 128) 3
-    (diamond frame-whole-canvas))
-  (with-drawing-to-file wave.jpg '(128 128) 3
-    (wave frame-whole-canvas)))
+  (with-drawing-to-file outline.jpg '(128 128)
+    (lambda ()
+      (outline frame-whole-canvas)))
+
+  (with-drawing-to-file x.jpg '(128 128)
+    (lambda ()
+      (x frame-whole-canvas)))
+
+  (with-drawing-to-file diamond.jpg '(128 128)
+    (lambda ()
+      (diamond frame-whole-canvas)))
+
+  (with-drawing-to-file wave.jpg '(128 128)
+    (lambda ()
+      (wave frame-whole-canvas))))

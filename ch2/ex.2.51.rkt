@@ -39,6 +39,9 @@
   (define-runtime-path below.jpg "ex.2.51.below.jpg")
 
   (with-drawing-to-file beside.jpg '(776 640)
-    ((beside wave rogers) frame-whole-canvas))
+    (lambda ()
+      ((beside wave rogers) frame-whole-canvas)))
+
   (with-drawing-to-file below.jpg '(776 640)
-    ((below wave rogers) frame-whole-canvas)))
+    (lambda ()
+      ((below wave rogers) frame-whole-canvas))))

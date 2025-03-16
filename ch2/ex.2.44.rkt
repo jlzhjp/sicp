@@ -56,7 +56,9 @@
   (define-runtime-path rogers.jpg "ex.2.44.rogers.jpg")
 
   (with-drawing-to-file wave.jpg '(512 512)
-    ((square-limit wave 4) frame-whole-canvas))
+    (lambda ()
+      ((square-limit wave 4) frame-whole-canvas)))
 
   (with-drawing-to-file rogers.jpg '(640 776)
-    ((square-limit rogers 4) frame-whole-canvas)))
+    (lambda ()
+      ((square-limit rogers 4) frame-whole-canvas))))

@@ -76,18 +76,29 @@
   (define-runtime-path rotate270.jpg "ex.2.50.rotate270.jpg")
 
   (with-drawing-to-file flip-vert.jpg '(640 776)
-    ((flip-vert rogers) frame-whole-canvas))
+    (lambda ()
+      ((flip-vert rogers) frame-whole-canvas)))
+
   (with-drawing-to-file flip-horiz.jpg '(640 776)
-    ((flip-horiz rogers) frame-whole-canvas))
+    (lambda ()
+      ((flip-horiz rogers) frame-whole-canvas)))
 
   (with-drawing-to-file squash-inwards.jpg '(640 776)
-    ((squash-inwards rogers) frame-whole-canvas))
+    (lambda ()
+      ((squash-inwards rogers) frame-whole-canvas)))
+
   (with-drawing-to-file shrink-to-upper-right.jpg '(640 776)
-    ((shrink-to-upper-right rogers) frame-whole-canvas))
+    (lambda ()
+      ((shrink-to-upper-right rogers) frame-whole-canvas)))
 
   (with-drawing-to-file rotate90.jpg '(776 640)
-    ((rotate90 rogers) frame-whole-canvas))
+    (lambda ()
+      ((rotate90 rogers) frame-whole-canvas)))
+
   (with-drawing-to-file rotate180.jpg '(640 776)
-    ((rotate180 rogers) frame-whole-canvas))
+    (lambda ()
+      ((rotate180 rogers) frame-whole-canvas)))
+
   (with-drawing-to-file rotate270.jpg '(776 640)
-    ((rotate270 rogers) frame-whole-canvas)))
+    (lambda ()
+      ((rotate270 rogers) frame-whole-canvas))))

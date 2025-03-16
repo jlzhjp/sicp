@@ -2,6 +2,7 @@
 
 ;; Drawing utilities for SICP graphics
 ;; Provides functionality for creating and manipulating drawings
+
 (provide with-drawing-to-file
          segments->painter
          bitmap->painter
@@ -40,61 +41,35 @@
   (send rkt-dc set-smoothing 'aligned)
   (drawing-context rkt-bitmap rkt-dc canvas-width canvas-height))
 
-(define context-stack '())
+(define current-drawing-context (make-parameter '()))
 
 (define (check-drawing-context)
-  (when (null? context-stack)
+  (when (null? (current-drawing-context))
     (error "no drawing context provided")))
 
-(define (with-drawing-to-file-impl filename size action)
-  ;; Implementation function for with-drawing-to-file
+(define (with-drawing-to-file filename size thunk)
+  ;; Function for creating and saving drawings to a file
   ;; Parameters:
   ;; - filename: Path where to save the drawing
   ;; - size: A list with width and height
-  ;; - action: Procedure containing drawing commands
-
-  ;; Validate arguments
-  (unless (path-string? filename)
-    (error 'with-drawing-to-file "filename must be a path or string, got: ~v" filename))
-  (unless (and (list? size) (= (length size) 2) (andmap number? size) (andmap positive? size))
-    (error 'with-drawing-to-file "size must be a list of two positive numbers, got: ~v" size))
-  (unless (procedure? action)
-    (error 'with-drawing-to-file "action must be a procedure, got: ~v" action))
-
+  ;; - thunk: Procedure containing drawing commands
   (define width (car size))
   (define height (cadr size))
 
-  ;; Setup drawing context
-  (set! context-stack (cons (make-drawing-context width height)
-                            context-stack))
-  (define context (car context-stack))
+  (parameterize ([current-drawing-context (make-drawing-context width height)])
+    (thunk)
+    (send (drawing-context-rkt-bitmap (current-drawing-context)) save-file filename 'jpeg))
 
-  ;; Execute drawing action with error handling
-  (with-handlers ([exn:fail? (lambda (e)
-                               ;; Clean up context stack on error
-                               (set! context-stack (cdr context-stack))
-                               (raise e))])
-    (action))
-
-  ;; Save drawing and clean up
-  (send (drawing-context-rkt-bitmap context) save-file filename 'jpeg)
-  (set! context-stack (cdr context-stack))
-  (void)) ;; Explicitly return void
-
-(define-syntax-rule (with-drawing-to-file filename size action ...)
-  ;; Macro for creating and saving drawings to a file
-  ;; Parameters:
-  ;; - filename: Path where to save the drawing (string or path object)
-  ;; - size: A list with width and height (e.g., '(400 300))
-  ;; - action...: One or more expressions that draw graphics
-  ;; Example:
-  ;;   (with-drawing-to-file "my-drawing.jpg" '(400 300)
-  ;;     (draw-line 0 0 1 1))
-  (with-drawing-to-file-impl filename size (lambda () action ...)))
+  (void))
 
 (define (draw-line x1 y1 x2 y2)
+  ;; Draws a line between two points
+  ;; Parameters:
+  ;; - x1, y1: Starting point coordinates (0.0-1.0)
+  ;; - x2, y2: Ending point coordinates (0.0-1.0)
   (check-drawing-context)
-  (define context (car context-stack))
+  (define context (current-drawing-context))
+
   (match-define (drawing-context _ rkt-dc w h) context)
 
   (send rkt-dc transform
@@ -107,6 +82,10 @@
   (send rkt-dc set-initial-matrix identity-matrix))
 
 (define (segments->painter segment-list)
+  ;; Creates a painter that draws a set of line segments
+  ;; Parameters:
+  ;; - segment-list: List of segments to draw
+  ;; Returns a procedure that draws the segments in a given frame
   (lambda (frame)
     (define coord-map (frame-coord-map frame))
     (for-each
@@ -126,6 +105,9 @@
   ;; - bitmap: The bitmap to draw
   ;; - ox, oy: Origin coordinates
   ;; - e1x, e1y, e2x, e2y: Edge vectors for transformation
+  (check-drawing-context)
+  (define context (current-drawing-context))
+
   (define width (send bitmap get-width))
   (define height (send bitmap get-height))
 
@@ -134,7 +116,6 @@
   (send flipped-dc set-initial-matrix (vector 1 0 0 -1 0 height))
   (send flipped-dc draw-bitmap bitmap 0 0)
 
-  (define context (car context-stack))
   (match-define (drawing-context _ rkt-dc cw ch) context)
   (send rkt-dc transform
         (make-transform-matrix
