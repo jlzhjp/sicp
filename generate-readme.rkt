@@ -21,18 +21,18 @@
     [(completed x) x]
     [(in-progress x) x]
     [(todo x) x]
-    [else (error "invalid status")]))
+    [_ (error "invalid status")]))
 
 (define chapters : (Listof Integer) '(1 2 3 4 5))
 
 (: chapter-exercise-count (-> Integer Integer))
 (define (chapter-exercise-count chapter)
-  (match chapter [1 46] [2 97] [3 82] [4 79] [5 52] [else (error "chapter not exists")]))
+  (match chapter [1 46] [2 97] [3 82] [4 79] [5 52] [_ (error "chapter not exists")]))
 
 
 (: chapter-exercise-folder (-> Integer Path))
 (define (chapter-exercise-folder chapter)
-  (match chapter [1 ch1] [2 ch2] [3 ch3] [4 ch4] [5 ch5] [else (error "chapter not exists")]))
+  (match chapter [1 ch1] [2 ch2] [3 ch3] [4 ch4] [5 ch5] [_ (error "chapter not exists")]))
 
 (: list-exercises (-> Integer (Listof Exercise)))
 (define (list-exercises chapter)
@@ -168,13 +168,6 @@
       (title-level-1 "SICP Exercises")
       (title-level-2 "Setup")
       (code-block "bash" '("raco pkg install ./support/"))
-      (title-level-2 "Chapter 1" #:center #t)
-      (exercise-table 1)
-      (title-level-2 "Chapter 2" #:center #t)
-      (exercise-table 2)
-      (title-level-2 "Chapter 3" #:center #t)
-      (exercise-table 3)
-      (title-level-2 "Chapter 4" #:center #t)
-      (exercise-table 4)
-      (title-level-2 "Chapter 5" #:center #t)
-      (exercise-table 5))))
+      (for ([chapter chapters])
+        (title-level-2 (format "Chapter ~a" chapter) #:center #t)
+        (exercise-table chapter)))))
