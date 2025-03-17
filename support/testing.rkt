@@ -27,11 +27,6 @@
          (stream-exact-= (stream-cdr stream) (cdr lst))]
         [else #f]))
 
-(define (collect-stream s n)
-  (if (or (stream-null? s) (= n 0))
-      '()
-      (cons (stream-car s) (collect-stream (stream-cdr s) (- n 1)))))
-
 (define (check-stream-exact comp stream lst)
   (cond
     [(and (null? lst) (stream-null? stream)) #t]  ;; Both empty - success

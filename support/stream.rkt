@@ -1,6 +1,7 @@
 #lang racket/base
 
 (provide cons-stream
+         collect-stream
          the-empty-stream
          stream-null?
          stream-car
@@ -74,3 +75,8 @@
                        pred
                        (stream-cdr stream)))]
         [else (stream-filter pred (stream-cdr stream))]))
+
+(define (collect-stream s n)
+  (if (or (stream-null? s) (= n 0))
+      '()
+      (cons (stream-car s) (collect-stream (stream-cdr s) (- n 1)))))
