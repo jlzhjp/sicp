@@ -1,5 +1,7 @@
 #lang racket/base
 
+(provide scale-stream)
+
 (require support/stream
          (only-in "ex.3.50.rkt" stream-map))
 

@@ -1,5 +1,8 @@
 #lang racket/base
 
+(provide sine-series
+         cosine-series)
+
 (require support/stream
          (only-in "ex.3.50.rkt" stream-map))
 
@@ -74,9 +77,9 @@
   ;; The power series for sine: [0, 1, 0, -1/6, 0, 1/120, 0, -1/5040, ...]
   ;; sine(x) = 0 + x - 0·x²/2! - x³/3! + 0·x⁴/4! + x⁵/5! - ...
   (check-stream-prefix-= sine-series
-                       (list 0 1 0 (/ -1 6) 0 (/ 1 120) 0 (/ -1 5040)))
+                         (list 0 1 0 (/ -1 6) 0 (/ 1 120) 0 (/ -1 5040)))
 
   ;; The power series for cosine: [1, 0, -1/2, 0, 1/24, 0, -1/720, ...]
   ;; cos(x) = 1 + 0·x - x²/2! + 0·x³/3! + x⁴/4! - 0·x⁵/5! - x⁶/6! + ...
   (check-stream-prefix-= cosine-series
-                       (list 1 0 (/ -1 2) 0 (/ 1 24) 0 (/ -1 720))))
+                         (list 1 0 (/ -1 2) 0 (/ 1 24) 0 (/ -1 720))))

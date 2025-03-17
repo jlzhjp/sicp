@@ -4,7 +4,8 @@
 
 (require "ex.3.50.rkt")
 
-(define (add-streams s1 s2) (stream-map + s1 s2))
+(define (add-streams . argstreams)
+  (apply stream-map (cons + argstreams)))
 
 (module+ test
   (require support/stream
