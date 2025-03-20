@@ -6,12 +6,45 @@
          check-stream-exact-=
          check-output
          check-normalized-output
-         (all-from-out rackunit))
+         it.output
+         expect
+         (all-from-out rackunit)
+         (rename-out [test-suite describe]
+                     [test-case it]
+                     [test-check it.check]
+                     [test-pred it.pred]
+                     [test-equal? it.equal?]
+                     [test-eq? it.eq?]
+                     [test-eqv? it.eqv?]
+                     [test-= it.=]
+                     [test-true it.true]
+                     [test-false it.false]
+                     [test-not-false it.not-false]
+                     [test-exn it.exn]
+                     [test-not-exn it.not-exn]))
 
 (require "stream.rkt"
          racket/string
+         racket/contract
          racket/port
-         rackunit)
+         rackunit
+         syntax/parse/define
+         (for-syntax racket/base))
+
+(define-syntax (expect-single-rule stx)
+  (syntax-parse stx
+    [(_ (actual:expr (~literal =>) expected:expr)) #'(check-equal? actual expected)]
+    [(_ (actual:expr (~literal ~>) expected:expr)) #'(check-= actual expected 1e-6)]
+    [(_ (thunk:expr (~literal =$>) expected:expr)) #'(check-normalized-output thunk expected)]))
+
+(define-syntax (expect stx)
+  (syntax-parse stx
+    [(_ rule:expr ...) #'(begin (expect-single-rule rule) ...)]))
+
+(define/contract (it.output name thunk expected-lines)
+  (-> string? procedure? (listof string?) void?)
+  (test-case name
+    (check-normalized-output thunk expected-lines)))
 
 (define (stream-prefix-= stream lst)
   (cond [(null? lst) #t]

@@ -4,18 +4,22 @@
          racket/contract
          racket/match
          ;; queue
-         "ex.3.22.rkt")
+         "../ch3/ex.3.22.rkt")
 
-(define signal? (one-of/c 0 1))
+;;; Time Segment
 
 (define-struct/contract segment
   ([time integer?]
    [queue queue?])
   #:mutable)
 
+;;; Agenda: a list of time segments
+
+(provide after-delay)
+
 (define-struct/contract agenda
   ([current-time integer?]
-   [segments (listof segment?)])
+   [segments (mlistof segment?)])
   #:mutable)
 
 (define/contract (first-segment agenda)
@@ -23,7 +27,7 @@
   (mcar (agenda-segments agenda)))
 
 (define/contract (rest-segments agenda)
-  (-> agenda? segment?)
+  (-> agenda? (mlistof segment?))
   (mcdr (agenda-segments agenda)))
 
 (define/contract (empty-agenda? agenda)
@@ -68,9 +72,9 @@
             (add-to-segments! rest)))))
 
 ;; add a new time and action to the correct place in the agenda
-(define/contract (add-to-agenda! time action)
+(define/contract (add-to-agenda! time action agenda)
   (-> integer? procedure? agenda? void?)
-  (define segments (segments agenda))
+  (define segments (agenda-segments agenda))
   (if (belongs-before? time segments)
       (set-agenda-segments!
        agenda
@@ -78,18 +82,69 @@
               segments))
       (add-to-segments! time action segments)))
 
-
 (define the-agenda (make-parameter (make-agenda 0 '())))
 
-(define inverter-delay 2)
-(define and-gate-delay 3)
-(define or-gate-delay 5)
-
 (define/contract (after-delay delay action)
-  (-> integer? procedure?)
+  (-> integer? procedure? void?)
   (add-to-agenda! (+ delay (agenda-current-time (the-agenda)))
                   action
                   (the-agenda)))
+
+;;; Wires and Signals
+
+(provide signal?
+         wire?
+         make-wire
+         get-signal
+         set-signal!
+         add-action!)
+
+(define signal? (one-of/c 0 1))
+
+(define (wire? x) (eq? (car x) 'wire))
+
+(define/contract (make-wire) (-> wire?)
+  (define signal-value 0)
+  (define action-procedures '())
+
+  (define (call-each procedures)
+    (unless (null? procedures)
+      ((car procedures))
+      (call-each (cdr procedures))))
+
+  (define (set-my-signal! new-value)
+    (unless (= signal-value new-value)
+      (set! signal-value new-value)
+      (call-each action-procedures)))
+
+  (define (accept-action-procedure! proc)
+    (set! action-procedures (cons proc action-procedures))
+    (proc))
+
+  (define (dispatch m)
+    (match m
+      ['get-signal signal-value]
+      ['set-signal! set-my-signal!]
+      ['add-action! accept-action-procedure!]
+      [_ (error 'dispatch "Unknown operation")]))
+
+  (list 'wire dispatch))
+
+(define/contract (get-signal wire)
+  (-> wire? signal?)
+  ((cadr wire) 'get-signal))
+
+(define/contract (set-signal! wire new-value)
+  (-> wire? signal? void?)
+  (((cadr wire) 'set-signal!) new-value))
+
+(define/contract (add-action! wire action)
+  (-> wire? procedure? void?)
+  (((cadr wire) 'add-action!) action))
+
+;;; Propagation
+
+(provide propagate)
 
 (define (propagate)
   (define agenda (the-agenda))
@@ -99,6 +154,7 @@
       (remove-first-agenda-item! agenda)
       ;; continue to propagate, until the agenda is empty
       (propagate))))
+
 
 (define/contract (remove-first-agenda-item! agenda)
   (-> agenda? void?)
@@ -123,6 +179,7 @@
   (when (empty-queue? q)
     (set-agenda-segments! agenda (rest-segments agenda))))
 
+
 (define/contract (first-agenda-item agenda)
   (-> agenda? procedure?)
   (if (empty-agenda? agenda)
@@ -131,71 +188,28 @@
         (set-agenda-current-time! agenda (segment-time first-seg))
         (front-queue (segment-queue first-seg)))))
 
-(define (wire? x) (eq? (car x) 'wire))
+;;; Logical Operations
 
-(define/contract (make-wire) (-> wire?)
-  (define-values
-    (signal-value action-procedures)
-    (values 0 '()))
-
-  (define (call-each procedures)
-    (unless (null? procedures)
-      ((car procedures))
-      (call-each (cdr procedures))))
-
-  (define (set-my-signal! new-value)
-    (unless (= signal-value new-value)
-      (set! signal-value new-value)
-      (call-each action-procedures)))
-
-  (define (accept-action-procedure! proc)
-    (set! action-procedures (cons proc action-procedures)))
-
-  (define (dispatch m)
-    (match m
-      ['get-signal signal-value]
-      ['set-signal! set-my-signal!]
-      ['add-action! accept-action-procedure!]
-      [_ (error 'dispatch "Unknown operation")]))
-
-  (list 'wire dispatch))
-
-(define/contract (get-signal wire)
-  (-> wire? signal?)
-  ((cdr wire) 'get-signal))
-
-(define/contract (set-signal! wire)
-  (-> wire? void?)
-  ((cdr wire) 'set-signal!))
-
-(define/contract (add-action! wire action)
-  (-> wire? procedure? void?)
-  ((cdr wire) 'add-action! action))
-
-; (define (logical-not s)
-;     (match s
-;       [0 1]
-;       [1 0]
-;       [_ (error 'logical-not "Invalid signal value")]))
-
-(define/match (logical-not _s)
+(define/match (logical-not s)
   [(0) 1]
   [(1) 0]
   [(_) (error 'logical-not "Invalid signal value")])
 
-(define/match (logical-and _a _b)
+(define/match (logical-and a b)
   [(0 0) 0]
   [(0 1) 0]
   [(1 0) 0]
   [(1 1) 1]
   [(_ _) (error 'logical-and "Invalid signal value")])
 
-(define/match (logical-or _a _b)
-  [(0 0) 0]
-  [(0 1) 1]
-  [(1 0) 1]
-  [(1 1) 1]
-  [(_ _) (error 'logical-or "Invalid signal value")])
+;;; Digital Circuits Components
+
+(provide inverter
+         probe
+         and-gate)
+
+(define inverter-delay 2)
+(define and-gate-delay 3)
 
 (define/contract (inverter input output)
   (-> wire? wire? void?)
@@ -205,6 +219,24 @@
                    (lambda ()
                      (set-signal! output new-value)))))
   (add-action! input invert-input))
+
+(module+ test
+  (require "testing.rkt")
+
+  (define inverter-tests
+    (describe "test inverter"
+      (it "should invert the input signal"
+        (let ([input (make-wire)]
+              [output (make-wire)])
+          (inverter input output)
+          (set-signal! input 0)
+          (propagate)
+
+          (expect [(get-signal output) => 1])
+
+          (set-signal! input 1)
+          (propagate)
+          (expect [(get-signal output) => 0]))))))
 
 (define/contract (probe name wire)
   (-> symbol? wire? void?)
@@ -225,30 +257,8 @@
   (add-action! a1 and-action-procedure)
   (add-action! a2 and-action-procedure))
 
-(define/contract (or-gate a1 a2 output)
-  (-> wire? wire? wire? void?)
-  (define (or-action-procedure)
-    (define new-value (logical-or (get-signal a1) (get-signal a2)))
-    (after-delay or-gate-delay
-                 (lambda ()
-                   (set-signal! output new-value))))
-  (add-action! a1 or-action-procedure)
-  (add-action! a2 or-action-procedure))
-
-(define/contract (half-adder a b s c)
-  (-> wire? wire? wire? wire? void?)
-  (define d (make-wire))
-  (define e (make-wire))
-  (or-gate a b e)
-  (and-gate a b c)
-  (inverter c e)
-  (and-gate d e s))
-
-(define/contract (full-adder a b c-in sum c-out)
-  (-> wire? wire? wire? wire? wire? void?)
-  (define s (make-wire))
-  (define c1 (make-wire))
-  (define c2 (make-wire))
-  (half-adder b c-in s c1)
-  (half-adder a s sum c2)
-  (or-gate c1 c2 c-out))
+(module+ test
+  (require rackunit/text-ui)
+  (run-tests
+   (describe "test digital circuits"
+     inverter-tests)))
