@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support/stream
+(require sicp-lib/stream
          (only-in "ex.3.53.rkt" add-streams)
          (only-in "ex.3.56.rkt" scale-stream)
          (only-in "ex.3.59.rkt" sine-series cosine-series))
@@ -29,7 +29,7 @@
 
 (module+ test
   (require racket/list
-           support/testing)
+           sicp-lib/testing)
 
   ; Test that sin²(x) + cos²(x) = 1
   (check-stream-prefix-=

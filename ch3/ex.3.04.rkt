@@ -29,7 +29,7 @@
   dispatch)
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define acc (make-account 100 'secret-password))
 

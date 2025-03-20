@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support/stream
+(require sicp-lib/stream
          "ex.3.50.rkt" ; stream-map
          "ex.3.54.rkt") ; integers
 
@@ -22,7 +22,7 @@
 
 ;; Tests for partial-sum function
 (module+ test
-  (require rackunit/text-ui support/testing)
+  (require rackunit/text-ui sicp-lib/testing)
 
   ;; Define test suite
   (define-test-suite partial-sum-tests

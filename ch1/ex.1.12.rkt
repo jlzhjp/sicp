@@ -22,7 +22,7 @@
   (print-pascal-triangle-row 1))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (check-normalized-output
    (lambda () (print-pascal-triangle 5))

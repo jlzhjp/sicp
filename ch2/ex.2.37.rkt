@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in support accumulate)
+(require (only-in sicp-lib accumulate)
          (only-in "ex.2.36.rkt" accumulate-n))
 
 (define (dot-product v w)

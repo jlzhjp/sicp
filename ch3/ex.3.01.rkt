@@ -7,7 +7,7 @@
       value)))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define A (make-accumulator 5))
 

@@ -4,7 +4,7 @@
 
 (require "ex.3.50.rkt"
          "ex.3.53.rkt"
-         support/stream)
+         sicp-lib/stream)
 
 (define ones (cons-stream 1 ones))
 
@@ -27,7 +27,7 @@
                             factorials)))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (check-stream-prefix-=
    factorials

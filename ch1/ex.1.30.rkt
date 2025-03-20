@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support)
+(require sicp-lib)
 
 (define (sum term a next b)
   (define (iter a result)

@@ -17,7 +17,7 @@
               (encode (cdr message) tree))))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define sample-tree
     (make-code-tree (make-leaf 'A 4)

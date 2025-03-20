@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support)
+(require sicp-lib)
 
 (define (square-list items)
   (if (null? items)

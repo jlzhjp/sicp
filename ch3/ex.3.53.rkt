@@ -8,8 +8,8 @@
   (apply stream-map (cons + argstreams)))
 
 (module+ test
-  (require support/stream
-           support/testing)
+  (require sicp-lib/stream
+           sicp-lib/testing)
 
   ; Exercise 3.53
   ; Without running the program, describe the elements of the stream s.

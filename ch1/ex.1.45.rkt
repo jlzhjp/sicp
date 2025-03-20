@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support)
+(require sicp-lib)
 (require (only-in "ex.1.35.rkt" fixed-point))
 (require (only-in "ex.1.43.rkt" repeated))
 

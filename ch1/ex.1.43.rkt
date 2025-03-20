@@ -2,7 +2,7 @@
 
 (provide repeated)
 
-(require support)
+(require sicp-lib)
 
 (define (repeated f n)
   (if (= n 0)

@@ -15,7 +15,7 @@
 (define w (mystery v))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (check-equal? v (mlist 'a))
   (check-equal? w (mlist 'c 'b 'a)))

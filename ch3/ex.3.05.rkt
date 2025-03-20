@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support)
+(require sicp-lib)
 
 (define (random-in-range low high)
   (let ([range (- high low)])

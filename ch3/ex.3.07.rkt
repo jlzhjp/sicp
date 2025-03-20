@@ -26,7 +26,7 @@
         (acc password m))))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define peter-acc (make-account 100 'open-sesame))
   (define paul-acc (make-joint peter-acc 'open-sesame 'rose-bud))

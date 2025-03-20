@@ -2,7 +2,7 @@
 
 (provide accumulate-n)
 
-(require (only-in support accumulate))
+(require (only-in sicp-lib accumulate))
 
 (define (accumulate-n op init seqs)
   (if (null? (car seqs))

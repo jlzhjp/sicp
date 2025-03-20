@@ -12,7 +12,8 @@
          clear-queue!
          peek-queue
          size-queue
-         queue->list)
+         queue->list
+         queue?)
 
 (require racket/match)
 
@@ -96,44 +97,44 @@
         ['traverse-queue traverse-queue]
         [_ (error "Undefined operation -- DISPATCH" m)]))
 
-    dispatch))
+    (list 'queue dispatch)))
 
 (define (empty-queue? dispatch)
-  ((dispatch 'empty-queue?)))
+  (((cadr dispatch) 'empty-queue?)))
 
 (define (front-queue dispatch)
-  ((dispatch 'front-queue)))
+  (((cadr dispatch) 'front-queue)))
 
 (define (traverse-queue dispatch body)
-  ((dispatch 'traverse-queue) body)
+  (((cadr dispatch) 'traverse-queue) body)
   dispatch)
 
 (define (insert-queue! dispatch item)
-  ((dispatch 'insert-queue!) item)
+  (((cadr dispatch) 'insert-queue!) item)
   dispatch)
 
 (define (delete-queue! dispatch)
-  ((dispatch 'delete-queue!))
+  (((cadr dispatch) 'delete-queue!))
   dispatch)
 
 (define (peek-queue dispatch [default #f])
-  ((dispatch 'peek-queue) default))
+  (((cadr dispatch) 'peek-queue) default))
 
 (define (size-queue dispatch)
-  ((dispatch 'size-queue)))
+  (((cadr dispatch) 'size-queue)))
 
 (define (queue->list dispatch)
-  ((dispatch 'queue->list)))
+  (((cadr dispatch) 'queue->list)))
 
 (define (insert-all-queue! dispatch items)
-  ((dispatch 'insert-all-queue!) items)
+  (((cadr dispatch) 'insert-all-queue!) items)
   dispatch)
 
 (define (try-delete-queue! dispatch [on-empty (lambda () #f)])
-  ((dispatch 'try-delete-queue!) on-empty))
+  (((cadr dispatch) 'try-delete-queue!) on-empty))
 
 (define (clear-queue! dispatch)
-  ((dispatch 'clear-queue!))
+  (((cadr dispatch) 'clear-queue!))
   dispatch)
 
 (define (print-queue queue)
@@ -142,8 +143,10 @@
   (for-each (lambda (v) (display " ") (display v)) items)
   (display ")"))
 
+(define (queue? x) (eqv? (car x) 'queue))
+
 (module+ test
-  (require support/testing
+  (require sicp-lib/testing
            rackunit/text-ui)
 
   (define-test-suite queue-tests

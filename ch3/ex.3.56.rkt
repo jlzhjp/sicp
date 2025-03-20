@@ -2,7 +2,7 @@
 
 (provide scale-stream)
 
-(require support/stream
+(require sicp-lib/stream
          (only-in "ex.3.50.rkt" stream-map))
 
 ; Exercise 3.56: A famous problem, first raised by R. Hamming,
@@ -43,5 +43,5 @@
                                            (scale-stream S 5)))))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
   (check-stream-prefix-= S '(1 2 3 4 5 6 8 9 10 12 15)))

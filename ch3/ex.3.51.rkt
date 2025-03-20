@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support/stream
+(require sicp-lib/stream
          "ex.3.50.rkt")
 
 (define (show x)
@@ -8,7 +8,7 @@
   x)
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define x '())
 

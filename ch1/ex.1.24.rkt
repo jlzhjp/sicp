@@ -2,7 +2,7 @@
 
 (provide expmod)
 
-(require support)
+(require sicp-lib)
 (require "ex.1.22.rkt")
 
 (define (expmod base exp m)

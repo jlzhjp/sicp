@@ -32,7 +32,7 @@
 (module+ test)
 
 (module+ main
-  (require support/drawing
+  (require sicp-lib/picture
            racket/runtime-path)
 
   (define-runtime-path beside.jpg "ex.2.51.beside.jpg")

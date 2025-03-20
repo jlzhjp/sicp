@@ -2,7 +2,7 @@
 
 (require (only-in "../ch1/ex.1.22.rkt"
                   prime?)
-         (only-in support
+         (only-in sicp-lib
                   flatmap
                   enumerate-interval
                   dec))

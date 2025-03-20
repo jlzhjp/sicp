@@ -2,7 +2,7 @@
 
 (provide smallest-divisor)
 
-(require support)
+(require sicp-lib)
 
 (define (divides? a b) (= (remainder b a) 0))
 

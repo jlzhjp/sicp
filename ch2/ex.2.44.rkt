@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support
+(require sicp-lib
          "ex.2.45.rkt"
          "ex.2.47.rkt"
          (only-in "ex.2.49.rkt" wave)
@@ -49,7 +49,7 @@
 (module+ test)
 
 (module+ main
-  (require support/drawing
+  (require sicp-lib/picture
            racket/runtime-path)
 
   (define-runtime-path wave.jpg "ex.2.44.wave.jpg")

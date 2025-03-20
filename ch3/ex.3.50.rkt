@@ -2,7 +2,7 @@
 
 (provide stream-map)
 
-(require support/stream)
+(require sicp-lib/stream)
 
 (define (stream-map proc . argstreams)
   (if (stream-null? (car argstreams))
@@ -13,7 +13,7 @@
               (cons proc (map stream-cdr argstreams))))))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (check-stream-exact-=
    (stream-map +

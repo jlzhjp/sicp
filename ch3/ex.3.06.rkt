@@ -15,7 +15,7 @@
     rand))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define rand (make-rand 1))
 

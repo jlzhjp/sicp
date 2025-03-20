@@ -9,7 +9,7 @@
                  (apply f args))))))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define s (make-monitored sqrt))
 

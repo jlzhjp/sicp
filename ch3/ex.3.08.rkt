@@ -6,7 +6,7 @@
                        x))))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define f (make-f))
   (define arg1 (f 0))

@@ -46,7 +46,7 @@
   (display ")"))
 
 (module+ test
-  (require support/testing
+  (require sicp-lib/testing
            rackunit/text-ui)
 
   ;; Define comprehensive test suite

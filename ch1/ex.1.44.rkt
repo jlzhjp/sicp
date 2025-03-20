@@ -2,7 +2,7 @@
 
 (provide smooth)
 
-(require support)
+(require sicp-lib)
 
 (define dx 0.1)
 

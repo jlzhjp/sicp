@@ -8,7 +8,7 @@
          start-segment
          end-segment)
 
-(require (only-in support average))
+(require (only-in sicp-lib average))
 
 (define (make-point x y) (list 'point x y))
 (define x-point cadr)

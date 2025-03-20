@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support)
+(require sicp-lib)
 
 (define (check-cycle x)
   (define (check-cycle-inner x1 x2)
@@ -11,7 +11,7 @@
         [else (check-cycle-inner (mcdr x) (mcddr x))]))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (check-false (check-cycle (mcons '() (mcons '() (mcons '() '())))))
 

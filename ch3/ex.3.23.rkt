@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require compatibility/mlist
-         support)
+         sicp-lib)
 
 (define (make-deque) (mcons '() '()))
 
@@ -94,7 +94,7 @@
   (display ")"))
 
 (module+ test
-  (require support/testing
+  (require sicp-lib/testing
            rackunit/text-ui)
 
   (define deque-tests

@@ -18,7 +18,7 @@
         SHA BOOM))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define encoded-song (encode song song-huffman-tree))
 

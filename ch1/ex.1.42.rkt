@@ -2,7 +2,7 @@
 
 (provide compose)
 
-(require support)
+(require sicp-lib)
 
 (define (compose f g) (lambda (x) (f (g x))))
 

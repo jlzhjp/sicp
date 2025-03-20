@@ -5,7 +5,7 @@
          center-interval
          percent-interval)
 
-(require (only-in support average)
+(require (only-in sicp-lib average)
          (only-in "ex.2.07.rkt"
                   make-interval
                   lower-bound

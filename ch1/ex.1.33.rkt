@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support)
+(require sicp-lib)
 (require (only-in "ex.1.22.rkt" prime?))
 
 (define (filtered-accumulate combiner pred? null-value term a next b)

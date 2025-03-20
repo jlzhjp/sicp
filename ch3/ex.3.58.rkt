@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support/stream)
+(require sicp-lib/stream)
 
 ; Exercise 3.58: Give an interpretation of the stream computed by the following procedure
 (define (expand num den radix)

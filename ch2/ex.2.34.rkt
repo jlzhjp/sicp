@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in support accumulate))
+(require (only-in sicp-lib accumulate))
 
 (define (horner-eval x coefficient-sequence)
   (accumulate (lambda (this-coeff higher-terms)

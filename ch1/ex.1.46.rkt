@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in support square average))
+(require (only-in sicp-lib square average))
 
 (define (iterative-improve good-enough? improve)
   (define (try guess)

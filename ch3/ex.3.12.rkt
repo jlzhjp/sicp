@@ -14,7 +14,7 @@
   x)
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define x (list 'a 'b))
   (define y (list 'c 'd))

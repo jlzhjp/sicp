@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support)
+(require sicp-lib)
 
 (define (accumulate combiner null-value term a next b)
   (if (> a b)

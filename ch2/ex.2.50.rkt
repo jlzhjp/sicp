@@ -65,7 +65,7 @@
 
 (module+ main
   (require racket/runtime-path
-           support/drawing)
+           sicp-lib/picture)
 
   (define-runtime-path flip-vert.jpg "ex.2.50.flip-vert.jpg")
   (define-runtime-path flip-horiz.jpg "ex.2.50.flip-horiz.jpg")

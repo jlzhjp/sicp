@@ -97,7 +97,7 @@
     [(todo _) "🔳"]
     [(in-progress _) "🚧"]
     [(completed _) "✅"]
-    [else (error "invalid status")]))
+    [_ (error "invalid status")]))
 
 (: title-level-1 (-> String Void))
 (define (title-level-1 title)
@@ -167,7 +167,7 @@
     (λ ()
       (title-level-1 "SICP Exercises")
       (title-level-2 "Setup")
-      (code-block "bash" '("raco pkg install ./support/"))
+      (code-block "bash" '("raco pkg install ./sicp-lib/"))
       (for ([chapter chapters])
         (title-level-2 (format "Chapter ~a" chapter) #:center #t)
         (exercise-table chapter)))))

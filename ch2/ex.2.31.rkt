@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in support square))
+(require (only-in sicp-lib square))
 
 (define (tree-map proc tree)
   (cond [(null? tree) '()]

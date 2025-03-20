@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in support inc)
+(require (only-in sicp-lib inc)
          (only-in "../ch1/ex.1.43.rkt" repeated)
          (only-in "../ch1/ex.1.42.rkt" compose))
 

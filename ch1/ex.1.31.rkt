@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require racket/math)
-(require support)
+(require sicp-lib)
 
 (define (product term a next b)
   (if (> a b)

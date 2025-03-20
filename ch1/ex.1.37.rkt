@@ -3,7 +3,7 @@
 (provide cont-frac
          cont-frac*)
 
-(require support)
+(require sicp-lib)
 
 (define (cont-frac n d k)
   (define (cont-frac-inner i)

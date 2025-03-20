@@ -9,7 +9,7 @@
 
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (check-= (count-pairs (cons '() (cons '() (cons '() '()))))
            3

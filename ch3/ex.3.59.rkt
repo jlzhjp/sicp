@@ -3,7 +3,7 @@
 (provide sine-series
          cosine-series)
 
-(require support/stream
+(require sicp-lib/stream
          (only-in "ex.3.50.rkt" stream-map))
 
 ; Exercise 3.59:
@@ -23,7 +23,7 @@
   (series s 1))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   ;; Create some test streams
   (define ones (cons-stream 1 ones))

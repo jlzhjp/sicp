@@ -12,7 +12,7 @@
 (define z2 (mcons (mlist 'a 'b) (mlist 'a 'b)))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (check-equal? (set-to-wow! z1)
                 (mlist (mlist 'wow 'b) 'wow 'b))

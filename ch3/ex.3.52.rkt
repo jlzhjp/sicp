@@ -2,8 +2,8 @@
 
 (module+ test
   (require rackunit/text-ui
-           support/testing
-           support/stream
+           sicp-lib/testing
+           sicp-lib/stream
            "ex.3.50.rkt")
 
   (run-tests

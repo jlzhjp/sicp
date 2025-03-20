@@ -1,7 +1,6 @@
 #lang racket/base
 
-;; Drawing utilities for SICP graphics
-;; Provides functionality for creating and manipulating drawings
+;; The Picture Language in SICP
 
 (provide with-drawing-to-file
          segments->painter

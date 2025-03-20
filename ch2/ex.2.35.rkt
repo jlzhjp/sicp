@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in support accumulate))
+(require (only-in sicp-lib accumulate))
 
 (define (count-leaves t)
   (accumulate + 0 (map (lambda (x)

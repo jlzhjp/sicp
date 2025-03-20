@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require support)
+(require sicp-lib)
 (require "ex.1.22.rkt")
 
 (define (divides? a b) (= (remainder b a) 0))

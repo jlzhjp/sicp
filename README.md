@@ -4,7 +4,7 @@
 ## Setup
 
 ```bash
-raco pkg install ./support/
+raco pkg install ./sicp-lib/
 ```
 
 <h2 align="center">Chapter 1</h2>

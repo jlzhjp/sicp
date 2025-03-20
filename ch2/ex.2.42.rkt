@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in support
+(require (only-in sicp-lib
                   flatmap
                   enumerate-interval))
 

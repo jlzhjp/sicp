@@ -16,8 +16,8 @@
   (inner x))
 
 (module+ test
-  (require support
-           support/testing)
+  (require sicp-lib
+           sicp-lib/testing)
 
   (check-= (count-pairs (mcons '() (mcons '() (mcons '() '()))))
            3

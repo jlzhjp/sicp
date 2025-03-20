@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require (only-in support square))
+(require (only-in sicp-lib square))
 
 (define (expmod* base exp m)
   (cond [(= exp 0) 1]

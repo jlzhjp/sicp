@@ -66,7 +66,7 @@
                                    (make-leaf 'C 1)))))
 
 (module+ test
-  (require support/testing)
+  (require sicp-lib/testing)
 
   (define sample-message '(0 1 1 0 0 1 0 1 0 1 1 1 0))
 
