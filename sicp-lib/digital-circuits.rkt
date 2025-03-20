@@ -63,13 +63,13 @@
       ;; if the time is just before the time of the first segment
       (let ([rest (mcdr segments)])
         ;; insert a new element to the list, with the new time and action
-        (if (belongs-before? rest)
+        (if (belongs-before? time rest)
             (set-mcdr!
              segments
              (mcons (make-new-time-segment time action)
                     (mcdr segments)))
             ;; otherwise, keep looking
-            (add-to-segments! rest)))))
+            (add-to-segments! time action rest)))))
 
 ;; add a new time and action to the correct place in the agenda
 (define/contract (add-to-agenda! time action agenda)
