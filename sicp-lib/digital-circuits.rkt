@@ -40,7 +40,7 @@
   ;; if the list is empty, return #t
   (or (null? segments)
       ;; if the time is less than the time of the first segment
-      (< time (segment-time (car segments)))))
+      (< time (segment-time (mcar segments)))))
 
 ;; make a new time segment with time and a queue with one action
 (define/contract (make-new-time-segment time action)
@@ -59,7 +59,7 @@
   ;; if the time is the same as the time of the first segment
   (if (= (segment-time (mcar segments)) time)
       ;; then insert the action into the queue of the first segment
-      (void (insert-queue! (segment-queue (mcar segments))))
+      (void (insert-queue! (segment-queue (mcar segments)) action))
       ;; if the time is just before the time of the first segment
       (let ([rest (mcdr segments)])
         ;; insert a new element to the list, with the new time and action
@@ -224,16 +224,17 @@
   (require "testing.rkt")
 
   (define inverter-tests
-    (describe "test inverter"
-      (it "should invert the input signal"
-        (let ([input (make-wire)]
-              [output (make-wire)])
-          (inverter input output)
+    (let ([input (make-wire)]
+          [output (make-wire)])
+      (describe "test inverter"
+        #:before (lambda () (inverter input output))
+
+        (it "!0 = 1"
           (set-signal! input 0)
           (propagate)
+          (expect [(get-signal output) => 1]))
 
-          (expect [(get-signal output) => 1])
-
+        (it "!1 = 0"
           (set-signal! input 1)
           (propagate)
           (expect [(get-signal output) => 0]))))))
@@ -258,7 +259,40 @@
   (add-action! a2 and-action-procedure))
 
 (module+ test
+  (define and-gate-tests
+    (let ([a1 (make-wire)]
+          [a2 (make-wire)]
+          [output (make-wire)])
+      (describe "test add gate"
+        #:before (lambda () (and-gate a1 a2 output))
+
+        (it "0 and 0 = 0"
+          (set-signal! a1 0)
+          (set-signal! a2 0)
+          (propagate)
+          (expect [(get-signal output) => 0]))
+
+        (it "0 and 1 = 0"
+          (set-signal! a1 0)
+          (set-signal! a2 1)
+          (propagate)
+          (expect [(get-signal output) => 0]))
+
+        (it "1 and 0 = 0"
+          (set-signal! a1 1)
+          (set-signal! a2 0)
+          (propagate)
+          (expect [(get-signal output) => 0]))
+
+        (it "1 and 1 = 1"
+          (set-signal! a1 1)
+          (set-signal! a2 1)
+          (propagate)
+          (expect [(get-signal output) => 1]))))))
+
+(module+ test
   (require rackunit/text-ui)
   (run-tests
    (describe "test digital circuits"
-     inverter-tests)))
+     inverter-tests
+     and-gate-tests)))
