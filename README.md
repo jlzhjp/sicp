@@ -4,7 +4,7 @@
 ## Setup
 
 ```bash
-raco pkg install ./sicp-lib/
+raco pkg install ./akari-sicp/lib/
 ```
 
 <h2 align="center">Chapter 1</h2>

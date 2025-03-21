@@ -167,7 +167,7 @@
     (λ ()
       (title-level-1 "SICP Exercises")
       (title-level-2 "Setup")
-      (code-block "bash" '("raco pkg install ./sicp-lib/"))
+      (code-block "bash" '("raco pkg install ./akari-sicp/lib/"))
       (for ([chapter chapters])
         (title-level-2 (format "Chapter ~a" chapter) #:center #t)
         (exercise-table chapter)))))
