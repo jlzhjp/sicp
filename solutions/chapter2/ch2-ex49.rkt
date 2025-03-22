@@ -5,10 +5,7 @@
          diamond
          wave)
 
-(require akari-sicp/lib/picture
-         "ch2-ex46.rkt"
-         "ch2-ex47.rkt"
-         "ch2-ex48.rkt")
+(require akari-sicp/lib/picture)
 
 (define outline
   (segments->painter
@@ -50,30 +47,3 @@
     (make-segment (make-vect 0.60 0.48) (make-vect 0.80 0.00))
     (make-segment (make-vect 0.40 0.00) (make-vect 0.50 0.30))
     (make-segment (make-vect 0.50 0.30) (make-vect 0.60 0.00)))))
-
-
-(module+ test)
-
-(module+ main
-  (require racket/runtime-path)
-
-  (define-runtime-path outline.jpg "ex.2.49.outline.jpg")
-  (define-runtime-path x.jpg "ex.2.49.x.jpg")
-  (define-runtime-path diamond.jpg "ex.2.49.diamond.jpg")
-  (define-runtime-path wave.jpg "ex.2.49.wave.jpg")
-
-  (with-drawing-to-file outline.jpg '(128 128)
-    (lambda ()
-      (outline frame-whole-canvas)))
-
-  (with-drawing-to-file x.jpg '(128 128)
-    (lambda ()
-      (x frame-whole-canvas)))
-
-  (with-drawing-to-file diamond.jpg '(128 128)
-    (lambda ()
-      (diamond frame-whole-canvas)))
-
-  (with-drawing-to-file wave.jpg '(128 128)
-    (lambda ()
-      (wave frame-whole-canvas))))

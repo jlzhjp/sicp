@@ -8,6 +8,7 @@
          check-normalized-output
          it.output
          expect
+         run-tests
          (all-from-out rackunit)
          (rename-out [test-suite describe]
                      [test-case it]
@@ -29,22 +30,30 @@
          racket/port
          rackunit
          syntax/parse/define
+         (only-in rackunit/text-ui run-tests)
          (for-syntax racket/base))
 
 (define-syntax (expect-single-rule stx)
   (syntax-parse stx
-    [(_ (actual:expr (~literal =>) expected:expr)) #'(check-equal? actual expected)]
-    [(_ (actual:expr (~literal ~>) expected:expr)) #'(check-= actual expected 1e-6)]
-    [(_ (thunk:expr (~literal =$>) expected:expr)) #'(check-normalized-output thunk expected)]))
+    [(_ (actual:expr (~literal =>) expected:expr))
+     (syntax/loc stx (check-equal? actual expected))]
+    [(_ (actual:expr (~literal ~>) expected:expr))
+     (syntax/loc stx (check-= actual expected 1e-6))]
+    [(_ (thunk:expr (~literal =$>) expected:expr))
+     (syntax/loc stx (check-normalized-output thunk expected))]))
 
 (define-syntax (expect stx)
   (syntax-parse stx
-    [(_ rule:expr ...) #'(begin (expect-single-rule rule) ...)]))
+    [(_ rule:expr ... )
+     (with-syntax ([(rules ...)
+                    (for/list ([r (syntax->list #'(rule ...))])
+                      (quasisyntax/loc stx (expect-single-rule #,r)))])
+       #'(begin rules ...))]))
 
 (define/contract (it.output name thunk expected-lines)
   (-> string? procedure? (listof string?) void?)
   (test-case name
-    (check-normalized-output thunk expected-lines)))
+             (check-normalized-output thunk expected-lines)))
 
 (define (stream-prefix-= stream lst)
   (cond [(null? lst) #t]
@@ -115,3 +124,4 @@
       (fail-check (format "output mismatch:\n  actual: ~v\nexpected: ~v"
                           output
                           expected)))))
+

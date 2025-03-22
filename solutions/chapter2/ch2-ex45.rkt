@@ -3,16 +3,15 @@
 (provide right-split
          up-split)
 
-(require "ch2-ex51.rkt")
+(require (only-in "ch2-ex51.rkt" beside below))
 
-(define (split d1 d2)
+(define (split a1 a2)
   (lambda (painter n)
     (if (= n 0)
         painter
-        (let ([smaller ((split d1 d2) painter (- n 1))])
-          (d1 painter (d2 smaller smaller))))))
+        (let ([smaller ((split a1 a2) painter (- n 1))])
+          (a1 painter (a2 smaller smaller))))))
 
 (define right-split (split beside below))
-(define up-split (split below beside))
 
-(module+ test)
+(define up-split (split below beside))

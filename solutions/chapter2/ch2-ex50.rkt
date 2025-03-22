@@ -3,12 +3,13 @@
 (provide transform-painter
          flip-vert
          flip-horiz
+         squash-inwards
+         shrink-to-upper-right
          rotate90
          rotate180
          rotate270)
 
-(require "ch2-ex46.rkt"
-         "ch2-ex47.rkt")
+(require akari-sicp/lib/picture)
 
 (define (transform-painter painter origin corner1 corner2)
   (lambda (frame)
@@ -60,45 +61,3 @@
                      (make-vect 0.0 1.0)
                      (make-vect 0.0 0.0)
                      (make-vect 1.0 1.0)))
-
-(module+ test)
-
-(module+ main
-  (require racket/runtime-path
-           akari-sicp/lib/picture)
-
-  (define-runtime-path flip-vert.jpg "ex.2.50.flip-vert.jpg")
-  (define-runtime-path flip-horiz.jpg "ex.2.50.flip-horiz.jpg")
-  (define-runtime-path squash-inwards.jpg "ex.2.50.squash-inwards.jpg")
-  (define-runtime-path shrink-to-upper-right.jpg "ex.2.50.shrink-to-upper-right.jpg")
-  (define-runtime-path rotate90.jpg "ex.2.50.rotate90.jpg")
-  (define-runtime-path rotate180.jpg "ex.2.50.rotate180.jpg")
-  (define-runtime-path rotate270.jpg "ex.2.50.rotate270.jpg")
-
-  (with-drawing-to-file flip-vert.jpg '(640 776)
-    (lambda ()
-      ((flip-vert rogers) frame-whole-canvas)))
-
-  (with-drawing-to-file flip-horiz.jpg '(640 776)
-    (lambda ()
-      ((flip-horiz rogers) frame-whole-canvas)))
-
-  (with-drawing-to-file squash-inwards.jpg '(640 776)
-    (lambda ()
-      ((squash-inwards rogers) frame-whole-canvas)))
-
-  (with-drawing-to-file shrink-to-upper-right.jpg '(640 776)
-    (lambda ()
-      ((shrink-to-upper-right rogers) frame-whole-canvas)))
-
-  (with-drawing-to-file rotate90.jpg '(776 640)
-    (lambda ()
-      ((rotate90 rogers) frame-whole-canvas)))
-
-  (with-drawing-to-file rotate180.jpg '(640 776)
-    (lambda ()
-      ((rotate180 rogers) frame-whole-canvas)))
-
-  (with-drawing-to-file rotate270.jpg '(776 640)
-    (lambda ()
-      ((rotate270 rogers) frame-whole-canvas))))

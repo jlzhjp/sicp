@@ -6,6 +6,6 @@
 raco pkg install --auto --name akari-sicp
 ```
 
-## Website (Work In Progress)
+## Website (Working In Progress)
 
 https://jlzhjp.github.io/sicp/

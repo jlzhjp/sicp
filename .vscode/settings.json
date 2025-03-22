@@ -4,6 +4,9 @@
         "markdown": true,
         "racket": true
     },
+    "files.associations": {
+        "*.scrbl": "racket",
+    },
     "cSpell.words": [
         "cadddr",
         "caddr",
@@ -16,6 +19,7 @@
         "flatmap",
         "foldr",
         "horiz",
+        "listof",
         "mcaddr",
         "mcadr",
         "mcar",

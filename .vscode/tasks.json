@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Test Racket",
+            "type": "shell",
+            "command": "raco test ${file}",
+            "problemMatcher": []
+        }
+    ]
+}

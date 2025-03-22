@@ -24,11 +24,13 @@
              (* s (ycor-vect v))))
 
 (module+ test
-  (require rackunit)
+  (require akari-sicp/lib/testing)
 
   (define v1 (make-vect 1 2))
   (define v2 (make-vect 3 4))
 
-  (check-equal? (add-vect v1 v2) (make-vect 4 6))
-  (check-equal? (sub-vect v2 v1) (make-vect 2 2))
-  (check-equal? (scale-vect 2 v2) (make-vect 6 8)))
+  (run-tests
+   (describe "vector operations"
+     (it.equal? "should add vectors correctly" (add-vect v1 v2) (make-vect 4 6))
+     (it.equal? "should subtract vectors correctly" (sub-vect v2 v1) (make-vect 2 2))
+     (it.equal? "should scale vectors correctly" (scale-vect 2 v2) (make-vect 6 8)))))

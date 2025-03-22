@@ -2,8 +2,7 @@
 
 ;; The Picture Language in SICP
 
-(provide with-drawing-to-file
-         with-drawing-to-image
+(provide painter->image
          segments->painter
          bitmap->painter
          rogers
@@ -49,33 +48,6 @@
 (define (check-drawing-context)
   (when (null? (current-drawing-context))
     (error "no drawing context provided")))
-
-(define (with-drawing-to-file filename size thunk)
-  ;; Function for creating and saving drawings to a file
-  ;; Parameters:
-  ;; - filename: Path where to save the drawing
-  ;; - size: A list with width and height
-  ;; - thunk: Procedure containing drawing commands
-  (define width (car size))
-  (define height (cadr size))
-
-  (parameterize ([current-drawing-context (make-drawing-context width height)])
-    (thunk)
-    (send (drawing-context-rkt-bitmap (current-drawing-context)) save-file filename 'jpeg))
-
-  (void))
-
-(define (with-drawing-to-image size thunk)
-  ;; Function for creating a drawing and returning it as an image
-  ;; Parameters:
-  ;; - size: A list with width and height
-  ;; - thunk: Procedure containing drawing commands
-  (define width (car size))
-  (define height (cadr size))
-
-  (parameterize ([current-drawing-context (make-drawing-context width height)])
-    (thunk)
-    (drawing-context-rkt-bitmap (current-drawing-context))))
 
 (define (draw-line x1 y1 x2 y2)
   ;; Draws a line between two points
@@ -184,3 +156,30 @@
 
 ;; Predefined painter using the Rogers image
 (define rogers (bitmap->painter rogers-path))
+
+;; The frame that fill the whole canvas
+;; leave a little margin to avoid clipping
+(define frame-whole-canvas
+  (make-frame (make-vect 0.05 0.05)
+              (make-vect 0.9 0)
+              (make-vect 0 0.9)))
+
+(define (with-drawing-to-image size thunk)
+  ;; Function for creating a drawing and returning it as an image
+  ;; Parameters:
+  ;; - size: A list with width and height
+  ;; - thunk: Procedure containing drawing commands
+  (define width (car size))
+  (define height (cadr size))
+
+  (parameterize ([current-drawing-context (make-drawing-context width height)])
+    (thunk)
+    (drawing-context-rkt-bitmap (current-drawing-context))))
+
+(define (painter->image size painter)
+  ;; Converts a painter to an image
+  ;; Parameters:
+  ;; - size: A list with width and height
+  ;; - painter: The painter to convert
+
+  (with-drawing-to-image size (lambda () (painter frame-whole-canvas))))
