@@ -1,7 +1,6 @@
 #lang racket/base
 
-(require compatibility/mlist
-         akari-sicp/lib/common)
+(require akari-sicp/lib/mcons)
 
 (define (make-deque) (mcons '() '()))
 

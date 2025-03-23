@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require compatibility/mlist)
+(require akari-sicp/lib/mcons)
 
 (define (count-pairs x)
   (define visited '())

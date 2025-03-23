@@ -7,5 +7,6 @@ Welcome to my documentation.
 
 @table-of-contents[]
 
-@include-section["chapter2.scrbl"]
-@include-section["chapter3.scrbl"]
+@include-section["2-0-0-building-abstractions-with-data.scrbl"]
+@include-section["3-0-0-modularity-objects-and-state.scrbl"]
+@include-section["4-0-0-metalinguistic-abstraction.scrbl"]

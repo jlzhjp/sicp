@@ -2,13 +2,7 @@
 
 @(require scribble/example
           racket/file
-          (for-label racket/base
-                     akari-sicp/solutions/chapter2/ch2-ex44
-                     akari-sicp/solutions/chapter2/ch2-ex45
-                     akari-sicp/solutions/chapter2/ch2-ex49
-                     akari-sicp/solutions/chapter2/ch2-ex50
-                     akari-sicp/solutions/chapter2/ch2-ex51
-                     akari-sicp/lib/picture))
+          (for-label racket))
 
 @(define the-evaluator (make-base-eval))
 
@@ -162,8 +156,8 @@ Solution:
 @section{Exercise 2.51}
 
 Define the below operation for painters. below
-takes two painters as arguments. e resulting painter, given
-a frame, draws with the first painter in the boom of the
+takes two painters as arguments. The resulting painter, given
+a frame, draws with the first painter in the bottom of the
 frame and with the second painter in the top. Define below
 in two different ways—first by writing a procedure that is
 analogous to the beside procedure given above, and again

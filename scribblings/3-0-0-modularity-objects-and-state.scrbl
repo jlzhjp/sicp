@@ -4,4 +4,4 @@
 
 @local-table-of-contents[]
 
-@include-section["digital-circuits.scrbl"]
+@include-section["3-3-0-modeling-with-mutable-data.scrbl"]

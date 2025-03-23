@@ -10,9 +10,7 @@
          sicp-random
          enumerate-interval
          atom?
-         mcadr
-         mcaddr
-         mcddr)
+         apply-in-underlying-scheme)
 
 (define (square x) (* x x))
 
@@ -40,9 +38,7 @@
       (random n)
       (* n (random))))
 
-(define (mcddr x) (mcdr (mcdr x)))
-(define (mcadr x) (mcar (mcdr x)))
-(define (mcaddr x) (mcar (mcdr (mcdr x))))
+(define apply-in-underlying-scheme apply)
 
 (module+ test
   (require rackunit)

@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require akari-sicp/lib/common)
+(require akari-sicp/lib/mcons)
 
 (define (check-cycle x)
   (define (check-cycle-inner x1 x2)

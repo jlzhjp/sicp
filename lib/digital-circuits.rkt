@@ -50,7 +50,7 @@
     (make-segment time q)))
 
 ;; add a new time and action to the list of segments
-;; [note]: this function handle this situation when
+;; [note]: this function handle the situation when
 ;; `time` is greater than or equal to the time of the first segment
 ;; because this function doesn't return a new list
 (define/contract (add-to-segments! time action segments)

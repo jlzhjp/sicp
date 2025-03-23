@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require compatibility/mlist)
+(require akari-sicp/lib/mcons)
 
 (define (check-cycle x)
   (define visited '())

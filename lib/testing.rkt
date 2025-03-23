@@ -40,7 +40,9 @@
     [(_ (actual:expr (~literal ~>) expected:expr))
      (syntax/loc stx (check-= actual expected 1e-6))]
     [(_ (thunk:expr (~literal =$>) expected:expr))
-     (syntax/loc stx (check-normalized-output thunk expected))]))
+     (syntax/loc stx (check-normalized-output (lambda () thunk) expected))]
+    [(_ (thunk:expr (~literal =!>) exn-predicate:expr))
+     (syntax/loc stx (check-exn exn-predicate (lambda () thunk)))]))
 
 (define-syntax (expect stx)
   (syntax-parse stx

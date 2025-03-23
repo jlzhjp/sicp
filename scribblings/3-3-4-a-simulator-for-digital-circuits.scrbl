@@ -2,9 +2,7 @@
 
 @title[#:tag "digital-circuits"]{A Simulator for Digital Circuits}
 @(require racket/file
-          (for-label racket
-                     akari-sicp/lib/testing
-                     akari-sicp/lib/digital-circuits))
+          (for-label racket))
 
 @section{Exercise 3.28}
 
