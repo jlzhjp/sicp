@@ -4,4 +4,5 @@
 
 @local-table-of-contents[]
 
+@include-section["3-2-0-the-environment-model-of-evaluation.scrbl"]
 @include-section["3-3-0-modeling-with-mutable-data.scrbl"]
