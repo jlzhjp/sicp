@@ -59,30 +59,28 @@ Actions and Identity:
 
 @subsection{Exercise 3.9}
 
-In section 1.2.1 we used the substitution model to analyze two procedures for
+In Section 1.2.1 we used the substitution model to analyze two procedures for
 computing factorials, a recursive version:
 
 @racketblock[
 (define (factorial n)
-  (if (= n 1)
-      1
-      (* n (factorial (- n 1)))))
+  (if (= n 1) 1 (* n (factorial (- n 1)))))
 ]
 
-and an iterative version that uses an accumulator:
+and an iterative version:
 
 @racketblock[
-(define (factorial n)
-  (define (iter product counter)
-    (if (> counter n)
-        product
-        (iter (* counter product)
-              (+ counter 1))))
-  (iter 1 1))
+(define (factorial n) (fact-iter 1 1 n))
+(define (fact-iter product counter max-count)
+  (if (> counter max-count)
+  product
+  (fact-iter (* counter product)
+             (+ counter 1)
+             max-count)))
 ]
 
 Show the environment structures created by evaluating @racket[(factorial 6)]
-using each version.
+using each version of @tt{factorial} procedure.
 
 
 Solution:
@@ -103,11 +101,10 @@ Iterative Version:
 @section{Frames as the Repository of Local State}
 
 @subsection{Exercise 3.10}
-
-In section 3.2.3, we saw how the environment model describes the behavior of
-procedures with local state. Now we examine how let expressions are handled.
-
-Consider the @racket[make-withdraw] procedure with let expressions:
+In the @tt{make-withdraw} procedure, the local
+variable balance is created as a parameter of @tt{make-withdraw}.
+We could also create the local state variable explicitly, using @racket[let],
+as follows:
 
 @racketblock[
 (define (make-withdraw initial-amount)
@@ -119,20 +116,19 @@ Consider the @racket[make-withdraw] procedure with let expressions:
           "Insufficient funds"))))
 ]
 
-This differs from our earlier version which used lambda to bind the local state:
-
+Recall from Section 1.3.2 that @racket[let] is simply syntactic sugar for a procedure call:
 @racketblock[
-(define (make-withdraw initial-amount)
-  ((lambda (balance)
-     (lambda (amount)
-       (if (>= balance amount)
-           (begin (set! balance (- balance amount))
-                  balance)
-           "Insufficient funds")))
-   initial-amount))
+  (let ((var> <exp>)) <body>)
 ]
 
-Use the environment model to analyze the evaluation of:
+is equivalent to:
+@racketblock[
+  ((lambda (var) <body>) <exp>)
+]
+
+Use the environment model to analyze this alternate version
+of @tt{make-withdraw}, drawing figures like the ones above
+to illustrate the interactions
 
 @racketblock[
 (define W1 (make-withdraw 100))
@@ -140,19 +136,29 @@ Use the environment model to analyze the evaluation of:
 (define W2 (make-withdraw 100))
 ]
 
-Show the resulting environment structure. Does this differ from the structure
-created by the original @racket[make-withdraw] procedure? Explain.
+Show that the two versions of make-withdraw create objects with the
+same behavior. How do the environment structures differ for the two versions?
 
-The let expression creates a frame with the binding for @racket[balance], while
-the lambda version creates two frames: one for the outer lambda parameter and
-another for the returned procedure. Despite this difference, the behavior
-remains the same, as both maintain state in an environment frame.
+Solution:
+
+@figure["ch3-ex10" @elem{Environment Model of the let Version @tt{make-withdraw}}]{
+ @image[#:style (style #f (list (attributes '((style . "width: 100%; height: auto")))))
+        "solutions/chapter3/ch3-ex10.svg"]}
+
+The let version of @tt{make-withdraw} cloned a frame in the environment chain.
+When accessing the balance variable, the program found it in the frame created by @tt{let}
+instead of the frame created by @tt{make-withdraw}.
+And there is no behavioral difference between the two versions of @tt{make-withdraw}.
+
 
 @section{Internal Definitions}
 
 @subsection{Exercise 3.11}
 
-Consider the following bank account procedure with an internal definition:
+In Section 3.2.3 we saw how the environment model described the behavior of procedures with local
+state. Now we have seen how internal definitions work. A
+typical message-passing procedure contains both of these
+aspects. Consider the bank account procedure of Section 3.1.1:
 
 @racketblock[
 (define (make-account balance)
@@ -161,19 +167,20 @@ Consider the following bank account procedure with an internal definition:
         (begin (set! balance (- balance amount))
                balance)
         "Insufficient funds"))
+
   (define (deposit amount)
     (set! balance (+ balance amount))
     balance)
+
   (define (dispatch m)
     (cond ((eq? m 'withdraw) withdraw)
           ((eq? m 'deposit) deposit)
-          (else (error "Unknown request -- MAKE-ACCOUNT"
-                       m))))
+          (else (error "Unknown request -- MAKE-ACCOUNT" m))))
+
   dispatch)
 ]
 
-Use the environment model to describe the implementation of
-@racket[make-account], analyzing:
+Show the environment structure generated by the sequence of interactions
 
 @racketblock[
 (define acc (make-account 50))
@@ -181,19 +188,17 @@ Use the environment model to describe the implementation of
 ((acc 'withdraw) 60)
 ]
 
-Where is the local state for @racket[acc] kept? How are the local
-procedures @racket[deposit] and @racket[withdraw] represented? Suppose we create
-another account:
+Where is the local state for acc kept? Suppose we define another account
 
 @racketblock[
 (define acc2 (make-account 100))
 ]
 
-How are the local state and procedures for @racket[acc2] different from those
-for @racket[acc]?
+How are the local states for the two accounts kept distinct? Which parts of the
+environment structure are shared between @tt{acc} and @tt{acc2}?
 
-The local state for each account is maintained in the environment frame created
-when @racket[make-account] is called. The internal procedures @racket[withdraw],
-@racket[deposit], and @racket[dispatch] all share this environment, allowing
-them to access and modify the same @racket[balance] variable. Each new account
-creates a distinct environment structure, ensuring separate state.
+Solution:
+
+@figure["ch3-ex11" @elem{Environment Model of @tt{make-account}}]{
+ @image[#:style (style #f (list (attributes '((style . "width: 100%; height: auto")))))
+        "solutions/chapter3/ch3-ex11.svg"]}
