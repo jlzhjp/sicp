@@ -12,9 +12,8 @@
           (sum-of-squares b c))))
 
 (module+ test
-  (require rackunit)
-
-  (check-= (sum-of-squares-of-max-two 1 2 3) 13 0)
-  (check-= (sum-of-squares-of-max-two 2 1 3) 13 0)
-  (check-= (sum-of-squares-of-max-two 3 2 1) 13 0)
-  (check-= (sum-of-squares-of-max-two 2 3 1) 13 0))
+  (require akari-sicp/lib/testing)
+  (expect [(sum-of-squares-of-max-two 1 2 3) => 13]
+          [(sum-of-squares-of-max-two 2 3 1) => 13]
+          [(sum-of-squares-of-max-two 3 2 1) => 13]
+          [(sum-of-squares-of-max-two 2 1 3) => 13]))
