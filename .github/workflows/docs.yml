@@ -47,12 +47,7 @@ jobs:
           ${{ runner.os }}-racket-
 
     - name: install base package
-      run: raco pkg install --skip-installed --auto --name akari-sicp
-
-    - name: install dependencies explicitly
-      run: |
-        raco pkg install --batch --auto scribble-math
-        raco setup -D
+      run: raco pkg install --auto --name akari-sicp
 
     - name: build scribblings
       run: scribble +m --redirect-main https://docs.racket-lang.org/ --htmls --dest ./docs ./scribblings/akari-sicp.scrbl
