@@ -48,7 +48,13 @@
         (list '- (make-primitive -))
         (list '* (make-primitive *))
         (list '/ (make-primitive /))
-        (list '= (make-primitive =))))
+        (list '= (make-primitive =))
+        (list '> (make-primitive >))
+        (list '< (make-primitive <))
+        (list '>= (make-primitive >=))
+        (list '<= (make-primitive <=))
+        (list 'eq? (make-primitive eq?))
+        (list 'eqv? (make-primitive eqv?))))
 
 (define (setup-base-environment)
   (extend-environment

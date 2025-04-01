@@ -48,7 +48,7 @@ jobs:
 
     - name: install base package
       run: |
-        raco pkg uninstall akari-sicp
+        raco pkg uninstall --no-docs akari-sicp
         raco pkg install --auto --no-docs --name akari-sicp
 
     - name: build scribblings

@@ -24,6 +24,24 @@ Alternatively, show how to implement and and or as derived expressions.
 
 @(codeblock (file->string "solutions/chapter4/ch4-ex04.rkt"))
 
+@section{Exercise 4.5}
+
+Scheme allows an additional syntax for @tt{cond}
+clauses, @tt{(⟨test⟩ => ⟨recipient⟩)}. If @tt{⟨test⟩} evaluates to a
+true value, then @tt{⟨recipient⟩} is evaluated. Its value must be a
+procedure of one argument; this procedure is then invoked
+on the value of the @tt{⟨test⟩}, and the result is returned as the
+value of the @tt{cond} expression. For example
+
+@codeblock{
+(cond ((assoc 'b '((a 1) (b 2))) => cadr)
+      (else false))
+}
+returns 2. Modify the handling of @tt{cond} so that it supports
+this extended syntax.
+
+@(codeblock (file->string "solutions/chapter4/ch4-ex05.rkt"))
+
 @section{Exercise 4.6}
 
 Let expressions are derived expressions, because
