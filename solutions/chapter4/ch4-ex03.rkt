@@ -1,10 +1,15 @@
 #lang racket/base
 
 (provide eval
+         apply
          make-primitive
+         make-procedure
          current-environment
          special-form-handlers
-         extend-environment)
+         extend-environment
+         set-variable-value!
+         lookup-variable-value
+         setup-base-environment)
 
 (require racket/match
          (only-in akari-sicp/lib/common apply-in-underlying-scheme))
@@ -40,9 +45,9 @@
 (define the-empty-environment env:the-empty-environment)
 
 (define primitive-procedures
-  (list (list 'car (make-primitive car))
-        (list 'cdr (make-primitive cdr))
-        (list 'cons (make-primitive cons))
+  (list (list 'car (make-primitive mcar))
+        (list 'cdr (make-primitive mcdr))
+        (list 'cons (make-primitive mcons))
         (list 'null? (make-primitive null?))
         (list '+ (make-primitive +))
         (list '- (make-primitive -))
@@ -75,9 +80,19 @@
 (define (true? x) (not (false? x)))
 (define (false? x) (eq? x #f))
 
+
 (define ((text-of-quotation _eval) exp)
+  (define (cons->mcons lst)
+    (let loop ([elements lst])
+      (cond [(not (pair? elements)) elements]
+            [(null? elements) '()]
+            [(pair? (car elements))
+             (mcons (cons->mcons (car elements)) (loop (cdr elements)))]
+            [else
+             (mcons (car elements) (loop (cdr elements)))])))
+  
   (match exp
-    [(list 'quote datum) datum]
+    [(list 'quote datum) (cons->mcons datum)]
     [_ (error 'text-of-quotation "expected a quote expression, got ~a" exp)]))
 
 (define ((eval-if eval) exp)
@@ -156,7 +171,8 @@
 (define special-form-handlers (make-parameter (setup-base-special-form-handlers)))
 
 (module+ test
-  (require akari-sicp/lib/testing)
+  (require akari-sicp/lib/testing
+           compatibility/mlist)
 
   (define (setup-test-environment)
     (extend-environment
@@ -182,13 +198,13 @@
 
      (it "evaluates quote expressions"
        (expect [(eval '(quote hello)) => 'hello]
-               [(eval '(quote (1 2 3))) => '(1 2 3)]))
+               [(eval '(quote (1 2 3))) => (mlist 1 2 3)]))
 
      (it "applies primitive procedures"
        (parameterize ([current-environment (setup-test-environment)])
          (expect [(eval '(car (quote (1 2 3)))) => 1]
-                 [(eval '(cdr (quote (1 2 3)))) => '(2 3)]
-                 [(eval '(cons 1 (quote (2 3)))) => '(1 2 3)]
+                 [(eval '(cdr (quote (1 2 3)))) => (mlist 2 3)]
+                 [(eval '(cons 1 (quote (2 3)))) => (mlist 1 2 3)]
                  [(eval '(null? (quote ()))) => #t]
                  [(eval '(null? (quote (1)))) => #f]
                  [(eval '(+ 2 3)) => 5]

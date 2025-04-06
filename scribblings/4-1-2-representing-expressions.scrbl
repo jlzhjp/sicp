@@ -24,6 +24,7 @@ Alternatively, show how to implement and and or as derived expressions.
 
 @(codeblock (file->string "solutions/chapter4/ch4-ex04.rkt"))
 
+
 @section{Exercise 4.5}
 
 Scheme allows an additional syntax for @tt{cond}
@@ -34,33 +35,87 @@ on the value of the @tt{⟨test⟩}, and the result is returned as the
 value of the @tt{cond} expression. For example
 
 @codeblock{
-(cond ((assoc 'b '((a 1) (b 2))) => cadr)
-      (else false))
+ (cond ((assoc 'b '((a 1) (b 2))) => cadr)
+ (else false))
 }
 returns 2. Modify the handling of @tt{cond} so that it supports
 this extended syntax.
 
 @(codeblock (file->string "solutions/chapter4/ch4-ex05.rkt"))
 
+
 @section{Exercise 4.6}
 
 Let expressions are derived expressions, because
-@codeblock{
-(let ((<var₁> <exp₁>) ... (<varₙ> <expₙ>))
-  <body>)
-}
+@racketblock[
+ (let ((<var₁> <exp₁>) ... (<varₙ> <expₙ>))
+   <body>)]
 
 is equivalent to
-@codeblock{
-((lambda (<var₁> ... <varₙ>)
-   <body>)
- <exp₁>
- ...
- <expₙ>)
-}
+@racketblock[
+ ((lambda (<var₁> ... <varₙ>)
+    <body>)
+  <exp₁>
+  ...
+  <expₙ>)]
 
 Implement a syntactic transformation @tt{let->combination} that reduces @tt{let}
 expressions to procedure calls as shown, and add the appropriate clause to
 @tt{eval} to handle @tt{let} expressions.
 
 @(codeblock (file->string "solutions/chapter4/ch4-ex06.rkt"))
+
+@section{Exercise 4.7}
+@tt{let*} is similar to @tt{let}, except that the bindings of the @tt{let*} variables are performed
+sequentially from left to right, and each binding is made in an environment in which all of the
+preceding bindings are visible. For example
+@racketblock[
+ (let* ((x 3)
+        (y (+ x 2))
+        (z (+ x y 5)))
+   (* x z))]
+
+returns @tt{39}. Explain how a @tt{let*} expression can be rewritten as a set of nested let
+expressions, and write a procedure @tt{let*->nested-lets} that performs this transformation. If we
+have already implemented @tt{let} (Exercise 4.6) and we want to extend the evaluator to handle
+@tt{let*}, is it sufficient to add a clause to eval whose action is
+
+@racketblock[
+ (eval (let*->nested-lets exp) env)]
+
+or must we explicitly expand @tt{let*} in terms of non-derived expressions?
+
+Solution:
+
+@(codeblock (file->string "solutions/chapter4/ch4-ex07.rkt"))
+
+@section{Exercise 4.8}
+“Named let” is a variant of @tt{let} that has the
+form
+
+@racketblock[
+ (let ⟨var⟩ ⟨bindings⟩ ⟨body⟩)]
+
+The @tt{⟨bindings⟩} and @tt{⟨body⟩} are just as in ordinary @tt{let}, except
+that @tt{⟨var⟩} is bound within @tt{⟨body⟩} to a procedure whose
+body is @tt{⟨body⟩} and whose parameters are the variables in
+the @tt{⟨bindings⟩}. Thus, one can repeatedly execute the @tt{⟨body⟩}
+by invoking the procedure named @tt{⟨var⟩}. For example, the
+iterative Fibonacci procedure (Section 1.2.2) can be rewritten
+using named let as follows:
+
+@racketblock[
+ (define (fib n)
+   (let fib-iter ((a 1)
+                  (b 0)
+                  (count n))
+     (if (= count 0)
+         b
+         (fib-iter (+ a b) a (- count 1)))))]
+
+Modify @tt{let->combination} of Exercise 4.6 to also support
+named @tt{let}.
+
+Solution:
+
+@(codeblock (file->string "solutions/chapter4/ch4-ex08.rkt"))

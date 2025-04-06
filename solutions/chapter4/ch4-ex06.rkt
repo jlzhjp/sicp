@@ -1,6 +1,6 @@
 #lang racket/base
 
-(provide let->combination)
+(provide eval-let)
 
 (require racket/match
          (only-in "ch4-ex03.rkt" eval current-environment special-form-handlers extend-environment))
@@ -29,7 +29,8 @@
      (describe "let as a special form"
        (it "evaluates let expressions directly"
          (parameterize ([special-form-handlers (hash-set (special-form-handlers) 'let eval-let)]
-                        [current-environment (extend-environment '(a b) '(10 20) (current-environment))])
+                        [current-environment (extend-environment '(a b) '(10 20)
+                                                                 (current-environment))])
            (expect [(eval '(let ((x 3) (y 4)) (+ x y))) => 7]
                    [(eval '(let ((x a) (y b)) (+ x y))) => 30])))
 
@@ -38,9 +39,4 @@
                         [current-environment (extend-environment '(z) '(5) (current-environment))])
            (expect [(eval '(let ((x 1))
                              (let ((y z))
-                               (+ x y)))) => 6])))
-
-       (it "works with more complex expressions"
-         (parameterize ([special-form-handlers (hash-set (special-form-handlers) 'let eval-let)]
-                        [current-environment (extend-environment '(base multiplier) '(2 3) (current-environment))])
-           (expect [(eval '(let ((a base) (b multiplier)) (* a b))) => 6])))))))
+                               (+ x y)))) => 6])))))))

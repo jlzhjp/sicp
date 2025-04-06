@@ -35,22 +35,24 @@
 
 (define-syntax (expect-single-rule stx)
   (syntax-parse stx
-    [(_ (actual:expr (~literal =>) expected:expr))
+    [(_ (actual:expr (~datum =>) expected:expr))
      (syntax/loc stx (check-equal? actual expected))]
-    [(_ (actual:expr (~literal ~>) expected:expr))
+    [(_ (actual:expr (~datum ~>) expected:expr))
      (syntax/loc stx (check-= actual expected 1e-6))]
-    [(_ (thunk:expr (~literal =$>) expected:expr))
+    [(_ (thunk:expr (~datum =$>) expected:expr))
      (syntax/loc stx (check-normalized-output (lambda () thunk) expected))]
-    [(_ (thunk:expr (~literal =!>) exn-predicate:expr))
+    [(_ (thunk:expr (~datum =!>) exn-predicate:expr))
      (syntax/loc stx (check-exn exn-predicate (lambda () thunk)))]))
 
 (define-syntax (expect stx)
   (syntax-parse stx
-    [(_ rule:expr ... )
-     (with-syntax ([(rules ...)
-                    (for/list ([r (syntax->list #'(rule ...))])
-                      (quasisyntax/loc stx (expect-single-rule #,r)))])
-       #'(begin rules ...))]))
+    #:datum-literals (=> ~> =$> =!>)
+    [(_ rules:expr ...)
+     (define rule-syntaxes (syntax->list #'(rules ...)))
+     (define expects
+       (for/list ([rule-stx rule-syntaxes])
+         (quasisyntax/loc rule-stx (expect-single-rule #,rule-stx))))
+     #`(begin #,@expects)]))
 
 (define/contract (it.output name thunk expected-lines)
   (-> string? procedure? (listof string?) void?)
