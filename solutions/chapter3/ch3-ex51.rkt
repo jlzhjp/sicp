@@ -12,20 +12,13 @@
 
   (define x '())
 
-  (check-normalized-output
-   (lambda ()
-     (set! x (stream-map show (stream-enumerate-interval 0 10))))
-
-   '("0"))
-
-  (check-normalized-output
-   (lambda ()
-     (check-= (stream-ref x 5) 5 0))
-
-   '("1" "2" "3" "4" "5"))
-
-  (check-normalized-output
-   (lambda ()
-     (check-= (stream-ref x 7) 7 0))
-
-   '("6" "7")))
+  (run-tests
+   (describe "exercise 3.51"
+     (it "should only evaluation the first element when initialized"
+       (expect [(set! x (stream-map show (stream-enumerate-interval 0 10))) =$> '("0")]))
+     (it "should evaluate up to the 5th element when calling (stream-ref x 5)"
+       (expect
+        [(expect [(stream-ref x 5) => 5]) =$> '("1" "2" "3" "4" "5")]))
+     (it "should evaluate up to the 7th element when calling (stream-ref x 7)"
+       (expect
+        [(expect [(stream-ref x 7) => 7]) =$> '("6" "7")])))))

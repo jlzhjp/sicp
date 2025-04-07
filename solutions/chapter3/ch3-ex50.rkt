@@ -15,8 +15,11 @@
 (module+ test
   (require akari-sicp/lib/testing)
 
-  (check-stream-exact-=
-   (stream-map +
-               (stream-enumerate-interval 1 5)
-               (stream-enumerate-interval 11 15))
-   (list 12 14 16 18 20)))
+  (run-tests
+   (describe "test stream-map"
+     (it "should work properly"
+       (define sum-stream
+         (stream-map +
+                     (stream-enumerate-interval 1 5)
+                     (stream-enumerate-interval 11 15)))
+       (expect [sum-stream =>> (list 12 14 16 18 20)])))))

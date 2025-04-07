@@ -1,8 +1,6 @@
 #lang racket/base
 
-(provide stream-prefix-=
-         stream-exact-=
-         check-stream-prefix-=
+(provide check-stream-prefix-=
          check-stream-exact-=
          check-output
          check-normalized-output
@@ -35,18 +33,32 @@
 
 (define-syntax (expect-single-rule stx)
   (syntax-parse stx
+    [(_ (actual:expr (~datum =>) expected:expr message:expr))
+     (syntax/loc stx (check-equal? actual expected message))]
     [(_ (actual:expr (~datum =>) expected:expr))
      (syntax/loc stx (check-equal? actual expected))]
+    
+    [(_ (actual:expr (~datum ~>) expected:expr message:expr))
+     (syntax/loc stx (check-= actual expected 1e-6 message))]
+    [(_ (actual:expr) (~datum ~>) expected:expr #:epsilon epsilon:expr)
+     (syntax/loc stx (check-= actual expected epsilon))]
+    [(_ (actual:expr (~datum ~>) expected:expr #:epsilon epsilon:expr message:expr))
+     (syntax/loc stx (check-= actual expected epsilon message))]
     [(_ (actual:expr (~datum ~>) expected:expr))
      (syntax/loc stx (check-= actual expected 1e-6))]
+    
     [(_ (thunk:expr (~datum =$>) expected:expr))
      (syntax/loc stx (check-normalized-output (lambda () thunk) expected))]
     [(_ (thunk:expr (~datum =!>) exn-predicate:expr))
-     (syntax/loc stx (check-exn exn-predicate (lambda () thunk)))]))
+     (syntax/loc stx (check-exn exn-predicate (lambda () thunk)))]
+    [(_ (actual-stream:expr (~datum =+>) expected-prefix:expr))
+     (syntax/loc stx (check-stream-prefix equal? actual-stream expected-prefix))]
+    [(_ (actual-stream:expr (~datum =>>) expected-list:expr))
+     (syntax/loc stx (check-stream-exact equal? actual-stream expected-list))]))
 
 (define-syntax (expect stx)
   (syntax-parse stx
-    #:datum-literals (=> ~> =$> =!>)
+    #:datum-literals (=> ~> =$> =!> =+> =>>)
     [(_ rules:expr ...)
      (define rule-syntaxes (syntax->list #'(rules ...)))
      (define expects
@@ -59,43 +71,34 @@
   (test-case name
              (check-normalized-output thunk expected-lines)))
 
-(define (stream-prefix-= stream lst)
-  (cond [(null? lst) #t]
-        [(stream-null? stream) #f]
-        [(= (stream-car stream) (car lst))
-         (stream-prefix-= (stream-cdr stream) (cdr lst))]
-        [else #f]))
-
-(define (stream-exact-= stream lst)
-  (cond [(and (null? lst) (stream-null? stream)) #t]
-        [(or (null? lst) (stream-null? stream)) #f]
-        [(= (stream-car stream) (car lst))
-         (stream-exact-= (stream-cdr stream) (cdr lst))]
-        [else #f]))
-
 (define (check-stream-exact comp stream lst)
   (cond
     [(and (null? lst) (stream-null? stream)) #t]  ;; Both empty - success
     [(null? lst)
-     (fail-check (format "stream longer than expected list:\n  stream prefix: ~v\n  list: ~v"
-                         (collect-stream stream 10) lst))]
+     (fail-check (format
+                  "stream longer than expected list:\n  stream prefix: ~v\n  list: ~v"
+                  (collect-stream stream 10) lst))]
     [(stream-null? stream)
-     (fail-check (format "stream shorter than expected list:\n  stream: ~v\n  list: ~v"
-                         '() lst))]
+     (fail-check (format
+                  "stream shorter than expected list:\n  stream: ~v\n  list: ~v"
+                  '() lst))]
     [(not (comp (stream-car stream) (car lst)))
-     (fail-check (format "stream element mismatch at position:\n  stream element: ~v\n  list element: ~v"
-                         (stream-car stream) (car lst)))]
+     (fail-check (format
+                  "stream element mismatch:\n  stream element: ~v\n  list element: ~v"
+                  (stream-car stream) (car lst)))]
     [else (check-stream-exact comp (stream-cdr stream) (cdr lst))]))
 
 (define (check-stream-prefix comp stream lst)
   (cond
     [(null? lst) #t]  ;; List is exhausted - success for prefix check
     [(stream-null? stream)
-     (fail-check (format "stream shorter than expected prefix:\n  stream: ~v\n  remaining list: ~v"
-                         '() lst))]
+     (fail-check (format
+                  "stream shorter than expected prefix:\n  stream: ~v\n  remaining list: ~v"
+                  '() lst))]
     [(not (comp (stream-car stream) (car lst)))
-     (fail-check (format "stream prefix mismatch at position:\n  stream element: ~v\n  list element: ~v"
-                         (stream-car stream) (car lst)))]
+     (fail-check (format
+                  "stream prefix mismatch:\n  stream element: ~v\n  list element: ~v"
+                  (stream-car stream) (car lst)))]
     [else (check-stream-prefix comp (stream-cdr stream) (cdr lst))]))
 
 (define-check (check-stream-prefix-= stream lst)

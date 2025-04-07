@@ -9,17 +9,13 @@
          stream-ref
          stream-for-each
          display-stream
+         stream-memo?
          stream-enumerate-interval
          stream-filter
-         with-stream-no-memo
          delay
          force)
 
 (define stream-memo? (make-parameter #t))
-
-(define (with-stream-no-memo proc)
-  (parameterize ([stream-memo? #f])
-    (proc)))
 
 (define (memo-proc proc)
   (let ([already-run? #f]
