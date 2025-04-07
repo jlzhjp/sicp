@@ -119,3 +119,30 @@ named @tt{let}.
 Solution:
 
 @(codeblock (file->string "solutions/chapter4/ch4-ex08.rkt"))
+
+@section{Exercise 4.9}
+Many languages support a variety of iteration
+constructs, such as do, for, while, and until. In Scheme,
+iterative processes can be expressed in terms of ordinary
+procedure calls, so special iteration constructs provide no
+essential gain in computational power. On the other hand,
+such constructs are often convenient. Design some iteration
+constructs, give examples of their use, and show how
+to implement them as derived expressions.
+
+Solution:
+
+@(codeblock (file->string "solutions/chapter4/ch4-ex09.rkt"))
+
+@section{Exercise 4.10}
+
+By using data abstraction, we were able to
+write an eval procedure that is independent of the
+particular syntax of the language to be evaluated. To illustrate this,
+design and implement a new syntax for Scheme by modifying
+the procedures in this section, without changing @tt{eval}
+or @tt{apply}.
+
+Solution:
+
+See @secref{Exercise_4_3}
