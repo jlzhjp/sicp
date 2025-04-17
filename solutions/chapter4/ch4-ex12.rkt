@@ -56,55 +56,40 @@
 
   (cons (make-frame (list->mlist vars) (list->mlist vals)) base-env))
 
-(define (traverse-environment proc env)
-  (unless (null? env)
-    (proc (first-frame env))
-    (traverse-environment proc (enclosing-environment env))))
-
-(define (find-in-frame var frame)
+(define (find-in-environment env var found not-found)
   (define (scan vars vals)
-    (if (null? vars)
-        #f
-        (if (eq? var (mcar vars))
-            vals
-            (scan (mcdr vars) (mcdr vals)))))
-  (let ([vars (frame-variables frame)]
-        [vals (frame-values frame)])
-    (scan vars vals)))
-
-;; not figuring out the right way to do this exercise
-;; define-variable! is hard to deal with :(
-;; so I'll use continuations
+    (cond [(null? vars)
+           (not-found (first-frame env) (enclosing-environment env))]
+          [(eq? var (mcar vars))
+           (found vals)]
+          [else (scan (mcdr vars) (mcdr vals))]))
+  (if (eq? env the-empty-environment)
+      (error 'find-in-environment "Unbound variable ~v" var)
+      (let ([frame (first-frame env)])
+        (scan (frame-variables frame) (frame-values frame)))))
 
 ;; loop up a variable in an environment
 (define (lookup-variable-value var env)
-  (call/cc
-   (lambda (return)
-     (traverse-environment
-      (lambda (frame)
-        (let ([vals (find-in-frame var frame)])
-          (when vals (return (mcar vals)))))
-      env)
-     (error "Unbound variable" var))))
+  (find-in-environment
+   env
+   var
+   (lambda (vals) (mcar vals))
+   (lambda (_ enclosing) (lookup-variable-value var enclosing))))
 
 ;; set a variable to a new value in a specified environment
 (define (set-variable-value! var val env)
-  (call/cc
-   (lambda (return)
-     (traverse-environment
-      (lambda (frame)
-        (let ([vals (find-in-frame var frame)])
-          (when vals
-            (set-mcar! vals val)
-            (return))))
-      env)
-     (error "Unbound variable -- SET!" var))))
+  (find-in-environment
+   env
+   var
+   (lambda (vals) (set-mcar! vals val))
+   (lambda (_ enclosing) (set-variable-value! var val enclosing))))
 
 (define (define-variable! var val env)
-  (let ([vals (find-in-frame var (first-frame env))])
-    (if vals
-        (set-mcar! vals val)
-        (add-binding-to-frame! var val (first-frame env)))))
+  (find-in-environment
+   env
+   var
+   (lambda (vals) (set-mcar! vals val))
+   (lambda (frame _) (add-binding-to-frame! var val frame))))
 
 (module+ test
   (define base-env (list (make-frame (mlist 'a 'b) (mlist 10 20))))

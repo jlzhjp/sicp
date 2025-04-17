@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require racket/match
-         (only-in "ch4-ex06.rkt" eval-let))
+         (prefix-in ex06: "ch4-ex06.rkt"))
 
 (define (let*->nested-lets exp)
   (match exp
@@ -13,7 +13,7 @@
               ,(loop (cdr bds)))))]))
 
 (define ((eval-let* eval) exp)
-  ((eval-let eval) (let*->nested-lets exp)))
+  ((ex06:eval-let eval) (let*->nested-lets exp)))
 
 (module+ test
   (require akari-sicp/lib/testing

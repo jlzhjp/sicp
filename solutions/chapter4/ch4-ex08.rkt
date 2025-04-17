@@ -34,11 +34,12 @@
                   '()
                   (cons (eval (car args)) (loop (cdr args))))))]
     [(list 'let (list (list vars vals) ...) body ...)
-     (eval `((lambda ,vars ,@body) ,@vals))]))
+     (eval `((lambda ,vars ,@body) ,@vals))]
+    [_ (error 'eval-let "invalid let form ~a" datum)]))
 
 (module+ test
   (require akari-sicp/lib/testing)
-  
+
   (parameterize ([special-form-handlers
                   (hash-set (special-form-handlers)
                             'let eval-let)])

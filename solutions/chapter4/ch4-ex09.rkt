@@ -27,7 +27,7 @@
      (describe "test while loop"
        (it "exit immediately"
          (expect [(eval '(while #f (displayln "X"))) =$> '()]))
-       
+
        (it "calculate sum"
          (define exp
            '(begin

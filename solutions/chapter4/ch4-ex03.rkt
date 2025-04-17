@@ -4,6 +4,8 @@
          apply
          make-primitive
          make-procedure
+         compound-procedure-handler
+         environment-handler
          current-environment
          special-form-handlers
          extend-environment
@@ -22,27 +24,49 @@
 (define (apply-primitive-procedure proc args)
   (apply-in-underlying-scheme (primitive-implementation proc) args))
 
+(define compound-procedure-handler
+  (make-parameter
+   (match-lambda
+     ['make-procedure (lambda (parameters body env) (list 'procedure parameters body env))]
+     ['compound-procedure? (lambda (proc) (match proc [(list 'procedure _ _ _) #t] [_ #f]))]
+     ['procedure-parameters cadr]
+     ['procedure-body caddr]
+     ['procedure-environment cadddr])))
 
-(define (make-procedure parameters body env) (list 'procedure parameters body env))
-(define (compound-procedure? proc) (match proc [(list 'procedure _ _ _) #t] [_ #f]))
-(define (procedure-parameters proc) (cadr proc))
-(define (procedure-body proc) (caddr proc))
-(define (procedure-environment proc) (cadddr proc))
+(define (make-procedure parameters body env)
+  (((compound-procedure-handler) 'make-procedure) parameters body env))
+(define (compound-procedure? proc)
+  (((compound-procedure-handler) 'compound-procedure?) proc))
+(define (procedure-parameters proc)
+  (((compound-procedure-handler) 'procedure-parameters) proc))
+(define (procedure-body proc)
+  (((compound-procedure-handler) 'procedure-body) proc))
+(define (procedure-environment proc)
+  (((compound-procedure-handler) 'procedure-environment) proc))
 
+(define environment-handler
+  (make-parameter
+   (match-lambda
+     ['the-empty-environment env:the-empty-environment]
+     ['extend-environment env:extend-environment]
+     ['define-variable! env:define-variable!]
+     ['set-variable-value! env:set-variable-value!]
+     ['lookup-variable-value env:lookup-variable-value])))
 
 (define (set-variable-value! var val)
-  (env:set-variable-value! var val (current-environment)))
+  (((environment-handler) 'set-variable-value!) var val (current-environment)))
 
 (define (lookup-variable-value var)
-  (env:lookup-variable-value var (current-environment)))
+  (((environment-handler) 'lookup-variable-value) var (current-environment)))
 
 (define (define-variable! var val)
-  (env:define-variable! var val (current-environment)))
+  (((environment-handler) 'define-variable!) var val (current-environment)))
 
 (define (extend-environment vars vals env)
-  (env:extend-environment vars vals env))
+  (((environment-handler) 'extend-environment) vars vals env))
 
-(define the-empty-environment env:the-empty-environment)
+(define the-empty-environment
+  ((environment-handler) 'the-empty-environment))
 
 (define primitive-procedures
   (list (list 'car (make-primitive mcar))
@@ -67,6 +91,8 @@
    (map cadr primitive-procedures)
    the-empty-environment))
 
+(define current-environment (make-parameter (setup-base-environment)))
+
 (define (setup-base-special-form-handlers)
   (hasheq
    'quote text-of-quotation
@@ -90,7 +116,7 @@
              (mcons (cons->mcons (car elements)) (loop (cdr elements)))]
             [else
              (mcons (car elements) (loop (cdr elements)))])))
-  
+
   (match exp
     [(list 'quote datum) (cons->mcons datum)]
     [_ (error 'text-of-quotation "expected a quote expression, got ~a" exp)]))
@@ -143,6 +169,9 @@
 
 (define (list-of-values exps) (map eval exps))
 
+(define special-form-handlers (make-parameter (setup-base-special-form-handlers)))
+
+
 (define (eval exp)
   (cond [(self-evaluating? exp) exp]
         [(variable? exp) (lookup-variable-value exp)]
@@ -152,23 +181,18 @@
          (apply (eval (car exp)) (list-of-values (cdr exp)))]
         [else (error 'eval "Unknown expression type" exp)]))
 
-(define (with-environment env thunk)
-  (parameterize ([current-environment env])
-    (thunk)))
-
 (define (apply procedure arguments)
   (cond [(primitive-procedure? procedure)
          (apply-primitive-procedure procedure arguments)]
         [(compound-procedure? procedure)
-         (with-environment (extend-environment
-                            (procedure-parameters procedure)
-                            arguments
-                            (procedure-environment procedure))
-           (lambda () ((eval-sequence eval) (procedure-body procedure))))]
+         (parameterize ([current-environment
+                         (extend-environment
+                          (procedure-parameters procedure)
+                          arguments
+                          (procedure-environment procedure))])
+           ((eval-sequence eval) (procedure-body procedure)))]
         [else (error 'apply "Unknown procedure type ~a" procedure)]))
 
-(define current-environment (make-parameter (setup-base-environment)))
-(define special-form-handlers (make-parameter (setup-base-special-form-handlers)))
 
 (module+ test
   (require akari-sicp/lib/testing
