@@ -4,4 +4,5 @@
 
 @local-table-of-contents[]
 
-@include-section["2-2-0-hierarchical-data-and-the-closure-property.scrbl"]
+@include-section{2-2-0-hierarchical-data-and-the-closure-property.scrbl}
+@include-section{2-5-0-systems-with-generic-operations.scrbl}

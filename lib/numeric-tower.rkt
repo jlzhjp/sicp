@@ -1,22 +1,29 @@
 #lang racket/base
 
-(provide numeric-tower-operation-table
-         get
-         put
-         install-rectangular-package
-         install-polar-package
-         real-part
-         imag-part
-         magnitude
-         angle
-         make-complex-from-mag-ang
-         make-complex-from-real-imag
-         install-complex-package
-         install-rational-package
-         install-scheme-number-package)
+(provide
+  install-generic-arithmetic-package
+  numeric-tower-operation-table
+  get
+  put
+  apply-generic
+  install-rectangular-package
+  install-polar-package
+  real-part
+  imag-part
+  magnitude
+  angle
+  make-complex-from-mag-ang
+  make-complex-from-real-imag
+  install-complex-package
+  install-rational-package
+  numer
+  denom
+  make-rat
+  install-scheme-number-package)
 
-(require "common.rkt"
-         akari-sicp/solutions/chapter2/ch2-ex78)
+(require
+  "common.rkt"
+  akari-sicp/solutions/chapter2/ch2-ex78)
 
 (define numeric-tower-operation-table (make-parameter (make-hash)))
 
@@ -123,8 +130,7 @@
   ((get 'make-from-mag-ang 'complex) r a))
 
 (define (install-scheme-number-package)
-  (define (tag x)
-    (attach-tag 'scheme-number x))
+  (define (tag x) (attach-tag 'scheme-number x))
   (put 'add '(scheme-number scheme-number)
        (lambda (x y) (tag (+ x y))))
   (put 'mul '(scheme-number scheme-number)
@@ -157,6 +163,8 @@
 
   (define (tag x) (attach-tag 'rational x))
 
+  (put 'numer '(rational) numer)
+  (put 'denom '(rational) denom)
   (put 'add '(rational rational)
        (lambda (x y) (tag (add-rat x y))))
   (put 'sub '(rational rational)
@@ -165,3 +173,14 @@
        (lambda (x y) (tag (div-rat x y))))
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d)))))
+
+(define (make-rat n d) ((get 'make 'rational) n d))
+(define (numer x) (apply-generic 'numer x))
+(define (denom x) (apply-generic 'denom x))
+
+(define (install-generic-arithmetic-package)
+  (install-polar-package)
+  (install-rectangular-package)
+  (install-complex-package)
+  (install-rational-package)
+  (install-scheme-number-package))
