@@ -1,0 +1,26 @@
+;; simple version
+
+(controller
+   (assign guess (const 1.0))
+ test-good-enough
+   (test (op good-enough?) (reg guess) (reg x))
+   (branch (label sqrt-done))
+   (assign (op improve) (reg guess) (reg x))
+   (goto (label test-good-enough))
+ sqrt-done)
+
+;; expanded version
+
+(controller
+   (assign guess (const 1.0))
+   (assign squared (op *) (reg guess) (reg guess))
+   (assign diff (op -) (reg squared) (reg x))
+   (assign absolute (op abs) (reg diff))
+ test-good-enough
+   (test (op <) (reg absolute) (const 0.01))
+   (branch (label sqrt-done))
+   (assign quotient (op /) (reg x) (reg guess))
+   (assign sum (op +) (reg guess) (reg quotient))
+   (assign guess (op /) (reg sum) (const 2))
+   (goto (label test-good-enough))
+ sqrt-done)
