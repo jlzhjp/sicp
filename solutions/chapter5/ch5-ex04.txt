@@ -1,0 +1,38 @@
+;; recursive version
+
+(controller
+   (assign continue (label expt-done))
+ expt-loop
+   (test (op =) (reg n) (const 0))
+   (branch (label base-case))
+   ;; save current state
+   (save n)
+   (save b)
+   (save continue)
+   ;; pass parameter
+   (assign n (op -) (reg n) (const 1))
+   (assign continue (label after-expt))
+   ;; recursive call
+   (goto (label expt-loop))
+ after-expt
+   ;; restore save state
+   (restore continue)
+   (restore n)
+   (restore b)
+   (assign val (op *) (reg b) (reg val))
+ base-case
+   (assign val (const 1))
+   (goto (reg continue))
+ expt-done)
+
+;; iterative version
+(controller
+   (assign product (const 1))
+   (assign counter (reg n))
+ test-counter
+   (test (op =) (reg counter) (const 0))
+   (branch (label expt-done))
+   (assign counter (op -) (reg counter) (const 1))
+   (assign product (op *) (reg product) (reg b))
+   (goto (label test-counter))
+ expt-done)

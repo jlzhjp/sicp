@@ -1,0 +1,24 @@
+(controller
+   (assign continue (label expt-done))
+ expt-loop
+   (test (op =) (reg n) (const 0))
+   (branch (label base-case))
+   ;; save current state
+   (save n)
+   ;; (save b) this save can be removed, as b stay the same in the process
+   (save continue)
+   ;; pass parameter
+   (assign n (op -) (reg n) (const 1))
+   (assign continue (label after-expt))
+   ;; recursive call
+   (goto (label expt-loop))
+ after-expt
+   ;; restore save state
+   (restore continue)
+   (restore n)
+   ;; (restore b) this restore can be removed
+   (assign val (op *) (reg b) (reg val))
+ base-case
+   (assign val (const 1))
+   (goto (reg continue))
+ expt-done)
